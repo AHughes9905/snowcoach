@@ -1,7 +1,10 @@
-package Controller;
-import DTO.CreatePostDTO;
-import Service.PostService;
+package snowcoach.Controller;
+import java.util.List;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import snowcoach.DTO.PostDTO;
+import snowcoach.Service.PostService;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -14,8 +17,8 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Post> createPost(@RequestBody PostDTO dto) {
-        Post createdPost = postService.createPost(dto);
+    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO dto) {
+        PostDTO createdPost = postService.createPost(dto);
         return ResponseEntity.ok(createdPost);
     }
 
