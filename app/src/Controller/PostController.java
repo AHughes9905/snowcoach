@@ -1,7 +1,7 @@
 package Controller;
 import DTO.CreatePostDTO;
-import Model.Post;
 import Service.PostService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -14,7 +14,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Post> createPost(@RequestBody CreatePostDTO dto) {
+    public ResponseEntity<Post> createPost(@RequestBody PostDTO dto) {
         Post createdPost = postService.createPost(dto);
         return ResponseEntity.ok(createdPost);
     }

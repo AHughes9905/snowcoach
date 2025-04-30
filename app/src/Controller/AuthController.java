@@ -15,36 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+    //need to implement
 
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailsServiceImpl userDetailsService;
-    private final JwtUtil jwtUtil;
+    //POST /api/auth/login
 
-    @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService, JwtUtil jwtUtil) {
-        this.authenticationManager = authenticationManager;
-        this.userDetailsService = userDetailsService;
-        this.jwtUtil = jwtUtil;
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody UserLoginDTO userLogin) {
-        try {
-            // Authenticate user
-            authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userLogin.getUsername(), userLogin.getPassword())
-            );
-
-            // Load user details
-            User user = userDetailsService.loadUserByUsername(userLogin.getUsername());
-
-            // Generate JWT token
-            String token = jwtUtil.generateToken(user);
-
-            // Return response
-            return ResponseEntity.ok(new UserDTO(token, user.getUsername(), user.getRole()));
-        } catch (AuthenticationException e) {
-            return ResponseEntity.status(401).body(new UserDTO("Invalid username or password"));
-        }
-    }
+    //POST /api/auth/register
+    
+    //POST /api/auth/logout
 }

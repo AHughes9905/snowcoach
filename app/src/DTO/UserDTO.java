@@ -4,6 +4,7 @@ public class UserDTO {
 
     private String username;
     private String role;
+    private Long id;
 
     public UserDTO() {}
 
@@ -28,4 +29,11 @@ public class UserDTO {
         this.role = role;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

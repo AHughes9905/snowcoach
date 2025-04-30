@@ -23,8 +23,8 @@ public class Post {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
+    @JoinColumn(name = "claimer_id")
+    private User claimer;
 
     // Constructors
     public Post() {}
@@ -74,12 +74,12 @@ public class Post {
         this.user = user;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getClaimer() {
+        return claimer;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setClaimer(User claimer) {
+        this.claimer = claimer;
     }
 
 }

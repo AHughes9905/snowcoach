@@ -52,7 +52,7 @@ public class PostService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        post.setUser(user);
+        post.setClaimer(user);
         return postMapper.toDTO(postRepository.save(post));
     }
 
