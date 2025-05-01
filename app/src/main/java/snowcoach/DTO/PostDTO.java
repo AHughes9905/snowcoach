@@ -1,4 +1,4 @@
-package DTO;
+package snowcoach.DTO;
 
 public class PostDTO {
 
@@ -6,17 +6,17 @@ public class PostDTO {
     private String content;
     private String mediaUrl;
     private String visibility;
-    private Long userId;
-    private User owner; // Assuming User is another DTO or entity class
+    private UserDTO user;
+    private UserDTO claimer; // Assuming User is another DTO or entity class
 
     public PostDTO() {}
 
-    public PostDTO(Long id, String content, String mediaUrl, String visibility, Long userId, User owner) {
+    public PostDTO(Long id, String content, String mediaUrl, String visibility, UserDTO user, UserDTO owner) {
         this.id = id;
         this.content = content;
         this.mediaUrl = mediaUrl;
         this.visibility = visibility;
-        this.userId = userId;
+        this.user = user;
     }
 
     public Long getId() {
@@ -51,20 +51,20 @@ public class PostDTO {
         this.visibility = visibility;
     }
 
-    public Long getUserId() {
-        return userId;
+    public UserDTO getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
-    public User getOwner() {
-        return owner;
+    public UserDTO getClaimer() {
+        return claimer;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setClaimer(UserDTO claimer) {
+        this.claimer = claimer;
     }
 
 }

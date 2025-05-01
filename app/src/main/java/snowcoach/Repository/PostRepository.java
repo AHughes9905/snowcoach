@@ -1,6 +1,6 @@
-package Repository;
+package snowcoach.Repository;
 
-import com.example.demo.model.Post;
+import snowcoach.Model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

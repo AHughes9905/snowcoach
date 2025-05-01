@@ -1,4 +1,4 @@
-package DTO;
+package snowcoach.DTO;
 
 public class UserDTO {
 
@@ -8,7 +8,8 @@ public class UserDTO {
 
     public UserDTO() {}
 
-    public UserDTO(String username, String role) {
+    public UserDTO(String username, String role, Long id) {
+        this.id = id;
         this.username = username;
         this.role = role;
     }
@@ -21,7 +22,7 @@ public class UserDTO {
         this.username = username;
     }
 
-    public String getrole() {
+    public String getRole() {
         return role;
     }
 

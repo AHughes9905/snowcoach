@@ -1,11 +1,10 @@
-package Service;
+package snowcoach.Service;
 
-import DTO.*;
-import Mapper.PostMapper;
-import Model.*;
-import Repository.*;
+import snowcoach.DTO.*;
+import snowcoach.Mapper.PostMapper;
+import snowcoach.Model.*;
+import snowcoach.Repository.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
@@ -21,8 +20,8 @@ public class PostService {
         this.postMapper = postMapper;
     }
 
-    public Post createPost(CreatePostDTO dto) {
-        User user = userRepository.findById(dto.getUserId())
+    public PostDTO createPost(PostDTO dto) {
+        User user = userRepository.findById(dto.getUser().getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Post post = new Post();
@@ -30,8 +29,8 @@ public class PostService {
         post.setVisibility(dto.getVisibility());
         post.setMediaUrl(dto.getMediaUrl());
         post.setUser(user);
-
-        return postRepository.save(post);
+        postRepository.save(post);
+        return postMapper.toDTO(post); 
     }
 
     public PostDTO getPostById(Long id) {

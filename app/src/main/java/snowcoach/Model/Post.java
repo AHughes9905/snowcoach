@@ -1,4 +1,4 @@
-package Model;
+package snowcoach.Model;
 
 import jakarta.persistence.*;
 
@@ -40,6 +40,10 @@ public class Post {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getContent() {

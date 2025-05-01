@@ -1,12 +1,19 @@
-package Mapper;
+package snowcoach.Mapper;
 
-import DTO.PostDTO;
-import Model.Post;
-import Model.User;
+import snowcoach.DTO.PostDTO;
+import snowcoach.DTO.UserDTO;
+import snowcoach.Model.Post;
+import snowcoach.Model.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PostMapper {
+
+    private final UserMapper userMapper;
+
+    public PostMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     public PostDTO toDTO(Post post) {
         PostDTO postDTO = new PostDTO();
@@ -14,7 +21,7 @@ public class PostMapper {
         postDTO.setContent(post.getContent());
         postDTO.setMediaUrl(post.getMediaUrl());
         postDTO.setVisibility(post.getVisibility());
-        postDTO.setUserId(post.getUser().getId());  // Assuming User has a getId() method
+        postDTO.setUser(userMapper.toDTO(post.getUser()));  // Map User to UserDTO
         return postDTO;
     }
 

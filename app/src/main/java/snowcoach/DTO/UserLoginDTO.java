@@ -1,4 +1,4 @@
-package DTO;
+package snowcoach.DTO;
 
 public class UserLoginDTO {
 

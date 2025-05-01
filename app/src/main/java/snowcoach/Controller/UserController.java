@@ -1,10 +1,10 @@
-package Controller;
-import DTO.UserDTO;
-import Service.UserService;
+package snowcoach.Controller;
+import snowcoach.DTO.UserDTO;
+import snowcoach.Service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestController
+@RestController
 @RequestMapping("/api/users")
 public class UserController {
 
