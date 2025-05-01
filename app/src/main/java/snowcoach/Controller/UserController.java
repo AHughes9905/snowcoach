@@ -1,5 +1,6 @@
 package snowcoach.Controller;
 import snowcoach.DTO.UserDTO;
+import snowcoach.DTO.UserLoginDTO;
 import snowcoach.Service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,8 @@ public class UserController {
 
     //add put /api/users/{id}/update
     @PutMapping("/{id}/update")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        UserDTO updatedUser = userService.updateUser(id, userDTO);
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserLoginDTO userLoginDTO) {
+        UserDTO updatedUser = userService.updateUser(id, userLoginDTO);
         return ResponseEntity.ok(updatedUser);
     }
 

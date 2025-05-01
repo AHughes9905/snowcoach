@@ -1,7 +1,6 @@
 package snowcoach.Mapper;
 
 import snowcoach.DTO.PostDTO;
-import snowcoach.DTO.UserDTO;
 import snowcoach.Model.Post;
 import snowcoach.Model.User;
 import org.springframework.stereotype.Component;

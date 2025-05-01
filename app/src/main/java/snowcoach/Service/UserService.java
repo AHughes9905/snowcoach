@@ -1,14 +1,17 @@
-package Service;
+package snowcoach.Service;
 
-import DTO.UserDTO;
-import Model.User;
-import Repository.UserRepository;
+import snowcoach.DTO.UserDTO;
+import snowcoach.DTO.UserLoginDTO;
+import snowcoach.Model.User;
+import snowcoach.Mapper.UserMapper;
+import snowcoach.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
@@ -33,11 +36,11 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public UserDTO updateUser(Long id, UserDTO userDTO) {
+    public UserDTO updateUser(Long id, UserLoginDTO userLoginDTO) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        user.setName(userDTO.getName());
-        user.setPassword(userDTO.getPassword()); 
+        user.setUsername(userLoginDTO.getUsername());
+        user.setPassword(userLoginDTO.getPassword()); 
         User updatedUser = userRepository.save(user);
         return userMapper.toDTO(updatedUser);
     }
