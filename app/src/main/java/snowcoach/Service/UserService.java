@@ -30,7 +30,7 @@ public class UserService {
         User user = new User();
         user.setUsername(userRegistrationDTO.getUsername());
         user.setPassword(userRegistrationDTO.getPassword());
-        user.setRole(userRegistrationDTO.getRole());
+        user.setRoles(userRegistrationDTO.getRoles());
         User savedUser = userRepository.save(user);
         return userMapper.toDTO(savedUser);
     }

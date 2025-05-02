@@ -60,7 +60,7 @@ public class User {
         return roles;
     }
 
-    public void setRole(String role) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
     }
 

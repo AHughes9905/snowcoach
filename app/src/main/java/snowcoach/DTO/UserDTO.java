@@ -1,17 +1,19 @@
 package snowcoach.DTO;
 
+import java.util.List;
+
 public class UserDTO {
 
     private String username;
-    private String role;
+    private List<String> roles;
     private Long id;
 
     public UserDTO() {}
 
-    public UserDTO(String username, String role, Long id) {
+    public UserDTO(String username, List<String> role, Long id) {
         this.id = id;
         this.username = username;
-        this.role = role;
+        this.roles = roles;
     }
 
     public String getUsername() {
@@ -22,12 +24,12 @@ public class UserDTO {
         this.username = username;
     }
 
-    public String getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
     public Long getId() {
