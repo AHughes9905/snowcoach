@@ -1,9 +1,14 @@
 package snowcoach.Controller;
+
 import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import snowcoach.DTO.PostDTO;
+import snowcoach.Service.MediaService;
 import snowcoach.Service.PostService;
 
 @RestController
@@ -11,15 +16,36 @@ import snowcoach.Service.PostService;
 public class PostController {
 
     private final PostService postService;
+    private final MediaService mediaService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, MediaService mediaService) {
         this.postService = postService;
+        this.mediaService = mediaService;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO dto) {
         PostDTO createdPost = postService.createPost(dto);
         return ResponseEntity.ok(createdPost);
+    }
+
+    @PostMapping("/create/media")
+    public ResponseEntity<PostDTO> createPostWithMedia(
+            @RequestPart("post") PostDTO dto,
+            @RequestPart("file") MultipartFile file) {
+        try {
+            // Upload the media file and get its URL
+            String mediaUrl = mediaService.uploadMedia(file);
+
+            // Attach the media URL to the post DTO
+            dto.setMediaUrl(mediaUrl);
+
+            // Create the post with the attached media
+            PostDTO createdPost = postService.createPost(dto);
+            return ResponseEntity.ok(createdPost);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
     }
 
     @GetMapping("/{id}")
@@ -52,5 +78,4 @@ public class PostController {
         List<PostDTO> posts = postService.getPostsByVisibility(visibility);
         return ResponseEntity.ok(posts);
     }
-
 }
