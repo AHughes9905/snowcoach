@@ -1,13 +1,13 @@
 package snowcoach.DTO;
 
-public class UserLoginDTO {
+public class UserAuthDTO {
 
     private String username;
     private String password;
 
-    public UserLoginDTO() {}
+    public UserAuthDTO() {}
 
-    public UserLoginDTO(String username, String password) {
+    public UserAuthDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }

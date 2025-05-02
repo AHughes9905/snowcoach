@@ -1,5 +1,6 @@
 package snowcoach.Config;
 
+import snowcoach.Service.UserService;
 import snowcoach.Util.JwtUtil;
 import snowcoach.Filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -17,11 +18,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
-    private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
-    public SecurityConfig(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
+    public SecurityConfig(JwtUtil jwtUtil, UserService userService) {
         this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
+        this.userService = userService;
     }
 
     @Bean
@@ -36,7 +37,18 @@ public class SecurityConfig {
             .requestMatchers("/api/auth/**").permitAll() // Allow authentication endpoints
             .anyRequest().authenticated() // Secure all other endpoints
             .and()
-            .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userDetailsService), UsernamePasswordAuthenticationFilter.class); // Add JWT filter
+            .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userService), UsernamePasswordAuthenticationFilter.class); // Add JWT filter
         return http.build();
     }
+
+    /// add something like the following to restrict url access
+    //@Override
+    //protected void configure(HttpSecurity http) throws Exception {
+    //    http.authorizeRequests()
+    //            .antMatchers("/admin/**").hasRole("ADMIN")
+    //            .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+    //            .anyRequest().authenticated();
+    //}
+
+    ///
 }

@@ -18,7 +18,7 @@ public class User {
     private String password; // Store hashed passwords!
 
     @Column(nullable = false)
-    private String role; // "coach" or "athlete"
+    private List<String> roles; // "coach" or "athlete"
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts;
@@ -26,10 +26,10 @@ public class User {
     // Constructors
     public User() {}
 
-    public User(String username, String password, String role) {
+    public User(String username, String password, List<String> roles) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
     }
 
     // Getters and Setters
@@ -38,9 +38,7 @@ public class User {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) { this.id = id; }
 
     public String getUsername() {
         return username;
@@ -58,12 +56,12 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.roles = roles;
     }
 
     public List<Post> getPosts() {
