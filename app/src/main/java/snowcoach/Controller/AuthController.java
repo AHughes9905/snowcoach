@@ -43,6 +43,8 @@ public class AuthController {
             String jwt = userService.loginUser(userAuthDTO);
             return ResponseEntity.ok(new AuthRespDTO(jwt));
         } catch (Exception e) {
+            System.out.println(userAuthDTO.getUsername());
+            System.out.println(e.getMessage());
             return ResponseEntity.status(401).body("Invalid credentials");
         }
     }

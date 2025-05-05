@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "your_secret_key"; // Replace with your actual secret key
+    private static final String SECRET_KEY = "KJH823jkGhf!@#lkj9852Kfa23nKJLD8hfa=="; // Replace with your actual secret key
     private static final Key SIGNING_KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     private static final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
 

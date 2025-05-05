@@ -5,7 +5,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import snowcoach.DTO.UserAuthDTO;
 import snowcoach.DTO.UserDTO;
-import snowcoach.DTO.UserAuthDTO;
 import snowcoach.DTO.UserRegistrationDTO;
 import snowcoach.Model.User;
 import snowcoach.Mapper.UserMapper;
@@ -26,13 +25,13 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public UserDTO createUser(UserRegistrationDTO userRegistrationDTO) {
+    public void createUser(UserRegistrationDTO userRegistrationDTO) {
         User user = new User();
         user.setUsername(userRegistrationDTO.getUsername());
         user.setPassword(userRegistrationDTO.getPassword());
         user.setRoles(userRegistrationDTO.getRoles());
-        User savedUser = userRepository.save(user);
-        return userMapper.toDTO(savedUser);
+        userRepository.save(user);
+        return;
     }
 
     public UserDTO getUserDTOById(Long id) {
@@ -72,7 +71,9 @@ public class UserService {
                 new UsernamePasswordAuthenticationToken(userAuthDTO.getUsername(), userAuthDTO.getPassword())
         );
 
-        return jwtUtil.generateToken(authentication.getName());
+        String s = jwtUtil.generateToken(authentication.getName());
+        System.out.println(s);
+        return s;
     }
 
 }
