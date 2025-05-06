@@ -1,5 +1,6 @@
 package snowcoach.Service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,12 +18,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;;
     private JwtUtil jwtUtil;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.authenticationManager = authenticationManager;
     }
 
     public void createUser(UserRegistrationDTO userRegistrationDTO) {
@@ -66,14 +68,21 @@ public class UserService {
         return userMapper.toDTO(updatedUser);
     }
 
-    public String loginUser(UserAuthDTO userAuthDTO) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userAuthDTO.getUsername(), userAuthDTO.getPassword())
-        );
+    public String verifyUser(UserAuthDTO userAuthDTO) {
+        User user = new User();
+        user.setUsername(userAuthDTO.getUsername());
+        user.setPassword(userAuthDTO.getPassword());
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        //Authentication authentication = authenticationManager.authenticate(
+        //        new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+        //);
 
-        String s = jwtUtil.generateToken(authentication.getName());
-        System.out.println(s);
-        return s;
+        if (true) {
+            return jwtUtil.generateToken(userAuthDTO.getUsername());
+        }
+        return "Not verified";
+
     }
 
 }

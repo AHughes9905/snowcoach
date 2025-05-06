@@ -40,7 +40,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserAuthDTO userAuthDTO) {
         try {
-            String jwt = userService.loginUser(userAuthDTO);
+            String jwt = userService.verifyUser(userAuthDTO);
             return ResponseEntity.ok(new AuthRespDTO(jwt));
         } catch (Exception e) {
             System.out.println(userAuthDTO.getUsername());
