@@ -7,6 +7,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import snowcoach.Util.JwtUtil;
 import snowcoach.Filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -26,8 +28,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
-    //@Autowired
-    //private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     public SecurityConfig(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
@@ -47,13 +49,13 @@ public class SecurityConfig {
 
     }
 
-    //@Bean
-    //AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
-    //    DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-    //    daoAuthenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder(12));
-        //daoAuthenticationProvider.setUserDetailsPasswordService(userDetailsService);
-    //    return daoAuthenticationProvider;
-    //}
+    @Bean
+    AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        return daoAuthenticationProvider;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {

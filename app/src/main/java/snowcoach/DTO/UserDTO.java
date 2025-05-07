@@ -1,19 +1,22 @@
 package snowcoach.DTO;
 
+import snowcoach.Model.Role;
+
+import java.util.Collection;
 import java.util.List;
 
 public class UserDTO {
 
     private String username;
-    private List<String> roles;
+    private Collection<Role> roles;
     private Long id;
 
     public UserDTO() {}
 
-    public UserDTO(String username, List<String> role, Long id) {
+    public UserDTO(String username, Collection<Role> roles, Long id) {
         this.id = id;
         this.username = username;
-        this.roles = roles;
+        this.roles = this.roles;
     }
 
     public String getUsername() {
@@ -24,11 +27,11 @@ public class UserDTO {
         this.username = username;
     }
 
-    public List<String> getRoles() {
+    public Collection<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
 
