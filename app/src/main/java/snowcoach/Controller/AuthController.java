@@ -13,6 +13,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -38,15 +41,24 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserAuthDTO userAuthDTO) {
+    public ResponseEntity<?> login(@RequestBody UserAuthDTO userAuthDTO, HttpServletResponse response) {
         try {
             String jwt = userService.verifyUser(userAuthDTO);
-            return ResponseEntity.ok(new AuthRespDTO(jwt));
+            Cookie jwtCookie = jwtUtil.createJwtCookie(jwt);
+            response.addCookie(jwtCookie);
+            return ResponseEntity.ok(new AuthRespDTO("Login successful"));
         } catch (Exception e) {
             System.out.println(userAuthDTO.getUsername());
             System.out.println(e.getMessage());
             return ResponseEntity.status(401).body("Invalid credentials");
         }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        Cookie logoutCookie = jwtUtil.createLogoutCookie();
+        response.addCookie(logoutCookie);
+        return ResponseEntity.ok("Logged out successfully");
     }
 
     //need to implement
@@ -57,4 +69,3 @@ public class AuthController {
     
     //POST /api/auth/logout
 }
-

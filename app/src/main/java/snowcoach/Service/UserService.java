@@ -21,10 +21,11 @@ public class UserService {
     private final AuthenticationManager authenticationManager;;
     private JwtUtil jwtUtil;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, AuthenticationManager authenticationManager) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
     }
 
     public void createUser(UserRegistrationDTO userRegistrationDTO) {
@@ -74,11 +75,11 @@ public class UserService {
         user.setPassword(userAuthDTO.getPassword());
         System.out.println(user.getUsername());
         System.out.println(user.getPassword());
-        //Authentication authentication = authenticationManager.authenticate(
-        //        new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
-        //);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+        );
 
-        if (true) {
+        if (authentication.isAuthenticated()) {
             return jwtUtil.generateToken(userAuthDTO.getUsername());
         }
         return "Not verified";
