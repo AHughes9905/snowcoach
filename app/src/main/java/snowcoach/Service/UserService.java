@@ -40,6 +40,7 @@ public class UserService {
     public UserDTO getUserDTOById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        System.out.println("got user info");
         return userMapper.toDTO(user);
     }
 

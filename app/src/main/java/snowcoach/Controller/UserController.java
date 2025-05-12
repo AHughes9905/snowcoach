@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -15,6 +15,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    //need to change response from UserDTO to different type of DTO
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
         UserDTO user = userService.getUserDTOById(id);
