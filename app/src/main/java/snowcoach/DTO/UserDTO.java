@@ -4,11 +4,12 @@ import snowcoach.Model.Role;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDTO {
 
     private String username;
-    private Collection<Role> roles;
+    private Collection<String> roleNames;
     private Long id;
 
     public UserDTO() {}
@@ -16,10 +17,17 @@ public class UserDTO {
     public UserDTO(String username, Collection<Role> roles, Long id) {
         this.id = id;
         this.username = username;
-        this.roles = this.roles;
+        this.roleNames = extractRoleNames(roles);
     }
 
-    public String getUsername() {
+    public static Collection<String> extractRoleNames(Collection<Role> roles) {
+        return roles.stream()
+                .map(Role::getName) // Extract the name of each role
+                .map(String::toUpperCase) // Convert names to uppercase (optional, for consistency)
+                .collect(Collectors.toList()); // Collect names into a collection
+    }
+
+        public String getUsername() {
         return username;
     }
 
@@ -27,12 +35,12 @@ public class UserDTO {
         this.username = username;
     }
 
-    public Collection<Role> getRoles() {
-        return roles;
+    public Collection<String> getRoles() {
+        return roleNames;
     }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
+    public void setRoleNames(Collection<Role> roles) {
+        this.roleNames = extractRoleNames(roles);
     }
 
     public Long getId() {
