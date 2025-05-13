@@ -10,3 +10,6 @@ Then run docker exec -it my-postgres psql -U aaron  inorder to get inside of pos
 Then inside postgres rnun docker exec -u aaron my-postgres psql -U aaron -c "CREATE DATABASE snowcoachdb;" to create db
 
 When running progam for first time on db uncomment everything in InitDbService
+
+## Run react dev server
+go into frontend directory then run npm run dev

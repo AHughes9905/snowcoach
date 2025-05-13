@@ -1,22 +1,26 @@
+import { useNavigate } from 'react-router-dom';
 
-function PostPreview({post}) {
+function PostPreview({ post }) {
+    const navigate = useNavigate();
 
-    function onViewClick() {
+    const handleClick = () => {
+        navigate(`/post/${post.id}`, { state: { post } }); // Pass the post object in state
+    };
 
-    }
-
-    return <div className = "post-preivew">
-        <div className = "post-title">
-            <h1 >{post.title}</h1>
-            <button className = "view-post-btn" onClick={onViewClick}>
-                <p>Details</p>
-            </button>
+    return (
+        <div className="post-preview">
+            <div className="post-title">
+                <h2>{post.title}</h2>
+                <button className="view-post-btn" onClick={handleClick}>
+                    <p>Details</p>
+                </button>
+            </div>
+            <div className="post-summary">
+                <h3>{post.level}</h3>
+                <p>{post.topic}</p>
+            </div>
         </div>
-        <div className = "post-summary">
-            <h3>{post.level}</h3>
-            <p>{post.topic}</p>
-        </div>
-    </div>
+    );
 }
 
-export default PostPreview
+export default PostPreview;

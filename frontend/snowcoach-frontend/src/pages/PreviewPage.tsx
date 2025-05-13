@@ -12,7 +12,7 @@ function PreviewPage() {
 
     return (
         <div className="preivew-page">
-
+            <h1>Available Posts to Claim</h1>
             <div className="preview-list">
                 {posts.map(post => <PostPreview post={post} key={post.id} />)}
             </div>

@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1e0dde2-5222-4bc5-80f3-2b19a8cf04c9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/DTO/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/DTO/UserDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Mapper/UserMapper.java" afterDir="false" />
-    </list>
+    <list default="true" id="f1e0dde2-5222-4bc5-80f3-2b19a8cf04c9" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -143,7 +139,7 @@
       <updated>1746212876394</updated>
       <workItem from="1746212877054" duration="12917000" />
       <workItem from="1746463669633" duration="28104000" />
-      <workItem from="1746806182482" duration="16402000" />
+      <workItem from="1746806182482" duration="17227000" />
     </task>
     <servers />
   </component>
