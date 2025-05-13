@@ -1,6 +1,7 @@
 package snowcoach.Model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "posts")
@@ -11,12 +12,12 @@ public class Post {
     private Long id;
 
     @Column(columnDefinition = "TEXT")
-    private String content; // Text content of the post
+    private String body;
 
-    private String mediaUrl; // URL or path to image/video
+    private String mediaUrl;
 
     @Column(nullable = false)
-    private String visibility; // "public", "private", "premium", etc.
+    private String visibility;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -26,18 +27,33 @@ public class Post {
     @JoinColumn(name = "claimer_id")
     private User claimer;
 
-    // Constructors
-    public Post() {}
+    @Column(nullable = false)
+    private String title;
 
-    public Post(String content, String mediaUrl, String visibility, User user) {
-        this.content = content;
+    private String topic;
+
+    private int level; // 0-5 where 5 is expert/certification
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime timeCreated;
+
+    // Constructors
+    public Post() {
+        this.timeCreated = LocalDateTime.now(); // Set default
+    }
+
+    public Post(String body, String title, String topic, int level, String mediaUrl, String visibility, User user) {
+        this.body = body;
+        this.title = title;
+        this.topic = topic;
+        this.level = level;
         this.mediaUrl = mediaUrl;
         this.visibility = visibility;
         this.user = user;
+        this.timeCreated = LocalDateTime.now();
     }
 
     // Getters and Setters
-
     public Long getId() {
         return id;
     }
@@ -46,12 +62,12 @@ public class Post {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public String getBody() {
+        return body;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public String getMediaUrl() {
@@ -86,4 +102,35 @@ public class Post {
         this.claimer = claimer;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public LocalDateTime getTimeCreated() {
+        return timeCreated;
+    }
+
+    public void setTimeCreated(LocalDateTime timeCreated) {
+        this.timeCreated = timeCreated;
+    }
 }

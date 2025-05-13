@@ -7,7 +7,9 @@ First run docker run --name my-postgres -e POSTGRES_USER=aaron -e POSTGRES_PASSW
 
 Then run docker exec -it my-postgres psql -U aaron  inorder to get inside of postgres
 
-Then inside postgres rnun docker exec -u aaron my-postgres psql -U aaron -c "CREATE DATABASE snowcoachdb;" to create db
+Then inside postgres rnun CREATE DATABASE snowcoachdb; to create db
+
+\q to quit psql container
 
 When running progam for first time on db uncomment everything in InitDbService
 

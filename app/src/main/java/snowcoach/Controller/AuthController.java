@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
+@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*" )
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

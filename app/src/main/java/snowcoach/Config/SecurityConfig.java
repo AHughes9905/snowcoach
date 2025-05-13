@@ -1,6 +1,7 @@
 package snowcoach.Config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -35,6 +36,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(request -> request
+                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .requestMatchers("api/user/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("api/auth/login", "api/auth/register")
                 .permitAll()

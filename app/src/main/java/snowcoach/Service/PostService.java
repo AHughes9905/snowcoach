@@ -25,10 +25,16 @@ public class PostService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Post post = new Post();
-        post.setContent(dto.getContent());
+        //need to move this to mapper
+        post.setTimeCreated(dto.getTimeCreated());
+        post.setBody(dto.getBody());
         post.setVisibility(dto.getVisibility());
         post.setMediaUrl(dto.getMediaUrl());
         post.setUser(user);
+        post.setClaimer(null);
+        post.setTitle(dto.getTitle());
+        post.setLevel(dto.getLevel());
+        post.setTopic(dto.getTopic());
         postRepository.save(post);
         return postMapper.toDTO(post); 
     }

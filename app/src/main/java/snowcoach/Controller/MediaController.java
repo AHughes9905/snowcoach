@@ -9,6 +9,7 @@ import snowcoach.Service.MediaService;
 
 @RestController
 @RequestMapping("/api/media")
+@CrossOrigin
 public class MediaController {
 
     private final MediaService mediaService;
