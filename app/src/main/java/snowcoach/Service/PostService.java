@@ -73,4 +73,9 @@ public class PostService {
         List<Post> posts = postRepository.findByVisibility(visibility);
         return posts.stream().map(postMapper::toDTO).toList();
     }
+
+    public List<PostDTO> getUnclaimedPosts() {
+        List<Post> posts = postRepository.findByClaimerId(null);
+        return posts.stream().map(postMapper::toDTO).toList();
+    }
 }

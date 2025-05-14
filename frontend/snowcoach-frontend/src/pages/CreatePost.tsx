@@ -8,7 +8,7 @@ function CreatePost() {
         level: "",
         topic: "",
         body: "",
-        username: "admin", // HARDCODED FOR NOW
+        username: "", 
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import snowcoach.DTO.PostDTO;
 import snowcoach.Service.MediaService;
 import snowcoach.Service.PostService;
+import snowcoach.Util.JwtUtil;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -18,15 +19,17 @@ public class PostController {
 
     private final PostService postService;
     private final MediaService mediaService;
+    private final JwtUtil jwtUtil;
 
-    public PostController(PostService postService, MediaService mediaService) {
+    public PostController(PostService postService, MediaService mediaService, JwtUtil jwtUtil) {
         this.postService = postService;
         this.mediaService = mediaService;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO dto) {
-        System.out.println("Request Body Username: " + dto.getUsername());
+    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO dto, @CookieValue(value = "jwt", required = false) String jwt) {
+        dto.setUsername(jwtUtil.extractUsername(jwt));
         PostDTO createdPost = postService.createPost(dto);
         return ResponseEntity.ok(createdPost);
     }
@@ -78,6 +81,12 @@ public class PostController {
     @GetMapping("/visibility/{visibility}")
     public ResponseEntity<List<PostDTO>> getPostsByVisibility(@PathVariable String visibility) {
         List<PostDTO> posts = postService.getPostsByVisibility(visibility);
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/unclaimed")
+    public ResponseEntity<List<PostDTO>> getUnclaimedPosts() {
+        List<PostDTO> posts = postService.getUnclaimedPosts();
         return ResponseEntity.ok(posts);
     }
 }
