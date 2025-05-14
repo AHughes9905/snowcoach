@@ -10,22 +10,22 @@ public class PostDTO {
     private String body;
     private String mediaUrl;
     private String visibility;
-    private UserDTO user;
-    private UserDTO claimer;
+    private String username;
+    private String claimerName;
     private LocalDateTime timeCreated; // New field
 
     public PostDTO() {}
 
-    public PostDTO(Long id, String body, String title, String topic, int level, String mediaUrl, String visibility, UserDTO user, UserDTO owner, LocalDateTime timeCreated) {
+    public PostDTO(Long id, String body, String title, String topic, int level, String mediaUrl, String visibility, String username, String claimerName, LocalDateTime timeCreated) {
         this.id = id;
         this.body = body;
         this.mediaUrl = mediaUrl;
         this.visibility = visibility;
-        this.user = user;
+        this.username = username;
         this.title = title;
         this.topic = topic;
         this.level = level;
-        this.claimer = owner;
+        this.claimerName = claimerName;
         this.timeCreated = timeCreated; // New field
     }
 
@@ -62,20 +62,20 @@ public class PostDTO {
         this.visibility = visibility;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public String getUser() {
+        return username;
     }
 
-    public void setUser(UserDTO user) {
-        this.user = user;
+    public void setUser(String username) {
+        this.username = username;
     }
 
-    public UserDTO getClaimer() {
-        return claimer;
+    public String getClaimer() {
+        return claimerName;
     }
 
-    public void setClaimer(UserDTO claimer) {
-        this.claimer = claimer;
+    public void setClaimer(String claimerName) {
+        this.claimerName = claimerName;
     }
 
     public String getTitle() { 

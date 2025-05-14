@@ -47,7 +47,8 @@ public class AuthController {
             String jwt = userService.verifyUser(userAuthDTO);
             Cookie jwtCookie = jwtUtil.createJwtCookie(jwt);
             response.addCookie(jwtCookie);
-            return ResponseEntity.ok(new AuthRespDTO("Login successful"));
+
+            return ResponseEntity.ok(new AuthRespDTO(userAuthDTO.getUsername() , "Login successful"));
         } catch (Exception e) {
             System.out.println(userAuthDTO.getUsername());
             System.out.println(e.getMessage());

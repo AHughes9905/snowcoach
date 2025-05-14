@@ -1,10 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function LoginPage() {
-    const [formData, setFormData] = useState({
-        username: "",
-        password: "",
-    });
+    const { login } = useAuth();
+    const [formData, setFormData] = useState({ username: "", password: "" });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -18,15 +17,13 @@ function LoginPage() {
         e.preventDefault();
 
         try {
-            console.log("Form Data being sent:", JSON.stringify(formData)); // Log the form data
-
             const response = await fetch("http://localhost:8080/api/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData), // Send username and password
-                credentials: "include", // Include cookies in the request
+                body: JSON.stringify(formData),
+                credentials: "include",
             });
 
             if (!response.ok) {
@@ -34,10 +31,10 @@ function LoginPage() {
             }
 
             const result = await response.json();
-            console.log("Login successful:", result);
+            console.log(result);
+            console.log(result.username)
+            login({ userId: result.userId, username: result.username }); // Store user info in context
             alert("Login successful!");
-
-            // The JWT should now be stored in a cookie by the backend
         } catch (error) {
             console.error("Error during login:", error);
             alert("Failed to log in. Please try again.");
@@ -47,8 +44,8 @@ function LoginPage() {
     return (
         <div className="login-page">
             <h1>Login</h1>
-            <form onSubmit={handleSubmit} className="login-form">
-                <div className="form-group">
+            <form onSubmit={handleSubmit}>
+                <div>
                     <label htmlFor="username">Username:</label>
                     <input
                         type="text"
@@ -59,7 +56,7 @@ function LoginPage() {
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div>
                     <label htmlFor="password">Password:</label>
                     <input
                         type="password"
@@ -70,7 +67,7 @@ function LoginPage() {
                         required
                     />
                 </div>
-                <button type="submit" className="submit-btn">Login</button>
+                <button type="submit">Login</button>
             </form>
         </div>
     );

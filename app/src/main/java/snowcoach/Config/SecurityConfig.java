@@ -38,12 +38,13 @@ public class SecurityConfig {
                 .authorizeRequests(request -> request
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .requestMatchers("api/user/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("api/auth/login", "api/auth/register")
-                .permitAll()
+                .requestMatchers("api/posts/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("api/auth/login", "api/auth/register").permitAll()
                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults()).
                 sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .httpBasic(httpBasic -> httpBasic.disable())
                 .build();
     }
 

@@ -1,11 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function CreatePost() {
+    const { user } = useAuth(); // Access user info from context
     const [formData, setFormData] = useState({
         title: "",
         level: "",
         topic: "",
         body: "",
+        username: "",
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -20,13 +23,19 @@ function CreatePost() {
         e.preventDefault();
 
         try {
-            const response = await fetch("https://localhost:8080/api/posts/create", {
+            formData.username = "admin"; // HARDCODED FOR NOW
+            console.log("userName:", formData.username);
+            const response = await fetch("http://localhost:8080/api/posts/create", {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData), // Convert formData to JSON
+                body: JSON.stringify({
+                    ...formData,
+                }),
             });
+            console.log("FormData:", formData);
 
             if (!response.ok) {
                 throw new Error("Failed to create post");
@@ -37,7 +46,7 @@ function CreatePost() {
             alert("Post created successfully!");
 
             // Reset the form
-            setFormData({ title: "", level: "", topic: "", body: "" });
+            setFormData({ title: "", level: "", topic: "", body: "", username: "" });
         } catch (error) {
             console.error("Error creating post:", error);
             alert("Failed to create post. Please try again.");
@@ -69,10 +78,10 @@ function CreatePost() {
                         required
                     >
                         <option value="" disabled>Select a level</option>
-                        <option value="Beginner">Beginner</option>
-                        <option value="Intermediate">Intermediate</option>
-                        <option value="Advanced">Advanced</option>
-                        <option value="Expert/Certification">Expert/Certification</option>
+                        <option value="0">Beginner</option>
+                        <option value="1">Intermediate</option>
+                        <option value="2">Advanced</option>
+                        <option value="3">Expert/Certification</option>
                     </select>
                 </div>
                 <div className="form-group">

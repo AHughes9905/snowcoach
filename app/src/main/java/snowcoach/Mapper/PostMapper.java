@@ -22,26 +22,26 @@ public class PostMapper {
         postDTO.setBody(post.getBody());
         postDTO.setMediaUrl(post.getMediaUrl());
         postDTO.setVisibility(post.getVisibility());
-        postDTO.setUser(userMapper.toDTO(post.getUser())); // Map User to UserDTO
+        postDTO.setUser(post.getUser().getUsername());
         postDTO.setTitle(post.getTitle());
         postDTO.setTopic(post.getTopic());
         postDTO.setLevel(post.getLevel());
-        postDTO.setClaimer(userMapper.toDTO(post.getClaimer()));
+        postDTO.setClaimer(post.getClaimer().getUsername() != null ? post.getClaimer().getUsername() : null);
         postDTO.setTimeCreated(post.getTimeCreated()); // Set timeCreated
         return postDTO;
     }
 
-    public Post toEntity(PostDTO postDTO, User user) {
+    public Post toEntity(PostDTO postDTO) {
         Post post = new Post();
         post.setId(postDTO.getId());
         post.setBody(postDTO.getBody());
         post.setMediaUrl(postDTO.getMediaUrl());
         post.setVisibility(postDTO.getVisibility());
-        post.setUser(user);
         post.setTitle(postDTO.getTitle());
         post.setTopic(postDTO.getTopic());
         post.setLevel(postDTO.getLevel());
-        post.setClaimer(userMapper.toEntity(postDTO.getClaimer()));
+        //post.setUser(postDTO.getUser());
+        //post.setClaimer(userMapper.toEntity(postDTO.getClaimer()));
         post.setTimeCreated(postDTO.getTimeCreated() != null ? postDTO.getTimeCreated() : LocalDateTime.now()); // Handle default
         return post;
     }
