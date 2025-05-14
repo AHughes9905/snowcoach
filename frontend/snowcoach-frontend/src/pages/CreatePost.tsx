@@ -23,7 +23,7 @@ function CreatePost() {
         e.preventDefault();
 
         try {
-            console.log("userName:", formData.username);
+            console.log("data sent:", formData.username);
             const response = await fetch("http://localhost:8080/api/posts/create", {
                 method: "POST",
                 credentials: "include",

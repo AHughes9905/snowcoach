@@ -23,8 +23,8 @@ public class PostService {
     }
 
     public PostDTO createPost(PostDTO dto) {
-        System.out.println(dto.getUser());
-        User user = userRepository.findByUsername(dto.getUser())
+        System.out.println(dto.getUsername());
+        User user = userRepository.findByUsername(dto.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Post post = new Post();

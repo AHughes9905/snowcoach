@@ -2,7 +2,6 @@ package snowcoach.Mapper;
 
 import snowcoach.DTO.PostDTO;
 import snowcoach.Model.Post;
-import snowcoach.Model.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -22,7 +21,7 @@ public class PostMapper {
         postDTO.setBody(post.getBody());
         postDTO.setMediaUrl(post.getMediaUrl());
         postDTO.setVisibility(post.getVisibility());
-        postDTO.setUser(post.getUser().getUsername());
+        postDTO.setUsername(post.getUser().getUsername());
         postDTO.setTitle(post.getTitle());
         postDTO.setTopic(post.getTopic());
         postDTO.setLevel(post.getLevel());
