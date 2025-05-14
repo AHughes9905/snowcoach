@@ -54,10 +54,10 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    public PostDTO claimPost(Long postId, Long userId) {
+    public PostDTO claimPost(Long postId, String username) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         post.setClaimer(user);

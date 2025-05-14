@@ -66,9 +66,9 @@ public class PostController {
     }
 
     @PutMapping("/{id}/claim")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
-    public ResponseEntity<PostDTO> claimPost(@PathVariable Long id, @RequestParam Long userId) {
-        PostDTO claimedPost = postService.claimPost(id, userId);
+    //@PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
+    public ResponseEntity<PostDTO> claimPost(@PathVariable Long id, @CookieValue(value = "jwt", required = false) String jwt) {
+        PostDTO claimedPost = postService.claimPost(id, jwtUtil.extractUsername(jwt));
         return ResponseEntity.ok(claimedPost);
     }
 
