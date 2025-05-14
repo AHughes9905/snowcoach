@@ -19,6 +19,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     // Use JUnit Jupiter for testing.
     testImplementation libs.junit.jupiter
 

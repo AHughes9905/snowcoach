@@ -27,7 +27,7 @@ public class PostController {
     @PostMapping("/create")
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO dto) {
         System.out.println("Request Body Username: " + dto);
-
+        dto.setUser("admin");
         PostDTO createdPost = postService.createPost(dto);
         return ResponseEntity.ok(createdPost);
     }

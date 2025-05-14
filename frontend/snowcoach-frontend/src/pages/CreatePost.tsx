@@ -8,7 +8,7 @@ function CreatePost() {
         level: "",
         topic: "",
         body: "",
-        username: "",
+        username: "admin", // HARDCODED FOR NOW
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -23,7 +23,6 @@ function CreatePost() {
         e.preventDefault();
 
         try {
-            formData.username = "admin"; // HARDCODED FOR NOW
             console.log("userName:", formData.username);
             const response = await fetch("http://localhost:8080/api/posts/create", {
                 method: "POST",

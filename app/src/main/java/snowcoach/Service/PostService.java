@@ -5,6 +5,8 @@ import snowcoach.Mapper.PostMapper;
 import snowcoach.Model.*;
 import snowcoach.Repository.*;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,10 +29,10 @@ public class PostService {
 
         Post post = new Post();
         //need to move this to mapper
-        post.setTimeCreated(dto.getTimeCreated());
+        post.setTimeCreated(LocalDateTime.now());
         post.setBody(dto.getBody());
-        post.setVisibility(dto.getVisibility());
-        post.setMediaUrl(dto.getMediaUrl());
+        post.setVisibility("visible");
+        post.setMediaUrl("na");
         post.setUser(user);
         post.setClaimer(null);
         post.setTitle(dto.getTitle());

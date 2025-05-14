@@ -26,7 +26,7 @@ public class PostMapper {
         postDTO.setTitle(post.getTitle());
         postDTO.setTopic(post.getTopic());
         postDTO.setLevel(post.getLevel());
-        postDTO.setClaimer(post.getClaimer().getUsername() != null ? post.getClaimer().getUsername() : null);
+        postDTO.setClaimer(null);
         postDTO.setTimeCreated(post.getTimeCreated()); // Set timeCreated
         return postDTO;
     }
