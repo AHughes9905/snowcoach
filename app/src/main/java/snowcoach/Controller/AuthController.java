@@ -46,6 +46,7 @@ public class AuthController {
         try {
             String jwt = userService.verifyUser(userAuthDTO);
             Cookie jwtCookie = jwtUtil.createJwtCookie(jwt);
+            jwtCookie.setHttpOnly(true);
             response.addCookie(jwtCookie);
 
             return ResponseEntity.ok(new AuthRespDTO(userAuthDTO.getUsername() , "Login successful"));
