@@ -78,4 +78,11 @@ public class PostService {
         List<Post> posts = postRepository.findByClaimerId(null);
         return posts.stream().map(postMapper::toDTO).toList();
     }
+
+    public List<PostDTO> getCalimedPosts(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        List<Post> posts = postRepository.findByClaimerId(user.getId());
+        return posts.stream().map(postMapper::toDTO).toList();
+    }
 }

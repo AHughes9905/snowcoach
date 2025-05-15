@@ -89,4 +89,10 @@ public class PostController {
         List<PostDTO> posts = postService.getUnclaimedPosts();
         return ResponseEntity.ok(posts);
     }
+
+    @GetMapping("/claimed")
+    public ResponseEntity<List<PostDTO>> getClaimedPosts(@CookieValue(value = "jwt", required = false) String jwt) {
+        List<PostDTO> posts = postService.getCalimedPosts(jwtUtil.extractUsername(jwt));
+        return ResponseEntity.ok(posts);
+    }
 }

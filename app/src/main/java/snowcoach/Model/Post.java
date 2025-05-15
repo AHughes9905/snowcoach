@@ -2,6 +2,9 @@ package snowcoach.Model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Table(name = "posts")
@@ -14,6 +17,7 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String body;
 
+    @Column
     private String mediaUrl;
 
     @Column(nullable = false)
@@ -30,16 +34,21 @@ public class Post {
     @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String topic;
 
+    @Column(nullable = false)
     private int level; // 0-5 where 5 is expert/certification
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime timeCreated;
 
-    // Constructors
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Reply> replies;
+
+
     public Post() {
-        this.timeCreated = LocalDateTime.now(); // Set default
+        this.timeCreated = LocalDateTime.now();
     }
 
     public Post(String body, String title, String topic, int level, String mediaUrl, String visibility, User user) {
@@ -132,5 +141,17 @@ public class Post {
 
     public void setTimeCreated(LocalDateTime timeCreated) {
         this.timeCreated = timeCreated;
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void addReply(Reply reply) {
+        if (replies == null) {
+            replies = new ArrayList<>();
+        }
+        replies.add(reply);
+        reply.setPost(this);
     }
 }

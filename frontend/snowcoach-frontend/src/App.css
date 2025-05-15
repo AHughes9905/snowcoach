@@ -78,3 +78,45 @@
 .create-post-form .submit-btn:hover {
     background-color: #0056b3;
 }
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+}
+
+.navbar-links a {
+    margin-right: 15px;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-links a:hover {
+    text-decoration: underline;
+}
+
+.navbar-auth {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-auth span {
+    font-weight: bold;
+}
+
+.navbar-auth button {
+    padding: 5px 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.navbar-auth button:hover {
+    background-color: #cc0000;
+}
