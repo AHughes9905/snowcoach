@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PostPreview from "../components/PostPreview";
 
 function PreviewPage() {
     const [posts, setPosts] = useState([]); // State to store the list of unclaimed posts
     const [loading, setLoading] = useState(true); // State to handle loading
     const [error, setError] = useState(null); // State to handle errors
+    const navigate = useNavigate(); // Hook to navigate between pages
 
     useEffect(() => {
         const fetchUnclaimedPosts = async () => {
@@ -42,12 +44,23 @@ function PreviewPage() {
         return <p>Error: {error}</p>; // Show an error message if fetching fails
     }
 
+    const handleViewDetails = (postId: number) => {
+        navigate(`/post/${postId}`); // Navigate to the post details page
+    };
+
     return (
         <div className="preview-page">
             <h1>Available Posts to Claim</h1>
             <div className="preview-list">
                 {posts.length > 0 ? (
-                    posts.map((post) => <PostPreview post={post} key={post.id} />)
+                    posts.map((post) => (
+                        <PostPreview
+                            post={post}
+                            key={post.id}
+                            buttonLabel="Details"
+                            buttonAction={handleViewDetails}
+                        />
+                    ))
                 ) : (
                     <p>No unclaimed posts available.</p>
                 )}

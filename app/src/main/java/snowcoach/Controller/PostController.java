@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import snowcoach.DTO.PostDTO;
+import snowcoach.DTO.ReplyDTO;
+import snowcoach.Model.Reply;
 import snowcoach.Service.MediaService;
 import snowcoach.Service.PostService;
 import snowcoach.Util.JwtUtil;
@@ -94,5 +96,12 @@ public class PostController {
     public ResponseEntity<List<PostDTO>> getClaimedPosts(@CookieValue(value = "jwt", required = false) String jwt) {
         List<PostDTO> posts = postService.getCalimedPosts(jwtUtil.extractUsername(jwt));
         return ResponseEntity.ok(posts);
+    }
+
+    @PostMapping("/{id}/reply")
+    public ResponseEntity<PostDTO> addReply(@RequestBody ReplyDTO reply, @CookieValue(value = "jwt", required = false) String jwt) {
+        reply.setUsername(jwtUtil.extractUsername(jwt));
+        PostDTO post = postService.addReply(reply);
+        return ResponseEntity.ok(post);
     }
 }

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PostPreview from "../components/PostPreview";
 
 function ClaimedPostsPage() {
     const [posts, setPosts] = useState([]); // State to store the list of claimed posts
     const [loading, setLoading] = useState(true); // State to handle loading
     const [error, setError] = useState(null); // State to handle errors
+    const navigate = useNavigate(); // Hook to navigate between pages
 
     useEffect(() => {
         const fetchClaimedPosts = async () => {
@@ -42,12 +44,23 @@ function ClaimedPostsPage() {
         return <p>Error: {error}</p>; // Show an error message if fetching fails
     }
 
+    const handleReply = (postId: number) => {
+        navigate(`/post/${postId}/reply`); // Navigate to the reply creation page
+    };
+
     return (
         <div className="claimed-posts-page">
             <h1>Your Claimed Posts</h1>
             <div className="claimed-posts-list">
                 {posts.length > 0 ? (
-                    posts.map((post) => <PostPreview post={post} key={post.id} />)
+                    posts.map((post) => (
+                        <PostPreview
+                            post={post}
+                            key={post.id}
+                            buttonLabel="Reply"
+                            buttonAction={handleReply}
+                        />
+                    ))
                 ) : (
                     <p>You have not claimed any posts yet.</p>
                 )}

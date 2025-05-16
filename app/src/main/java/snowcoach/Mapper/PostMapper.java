@@ -10,9 +10,11 @@ import java.time.LocalDateTime;
 public class PostMapper {
 
     private final UserMapper userMapper;
+    private final ReplyMapper replyMapper;
 
-    public PostMapper(UserMapper userMapper) {
+    public PostMapper(UserMapper userMapper, ReplyMapper replyMapper) {
         this.userMapper = userMapper;
+        this.replyMapper = replyMapper;
     }
 
     public PostDTO toDTO(Post post) {
@@ -26,7 +28,8 @@ public class PostMapper {
         postDTO.setTopic(post.getTopic());
         postDTO.setLevel(post.getLevel());
         postDTO.setClaimer(null);
-        postDTO.setTimeCreated(post.getTimeCreated()); // Set timeCreated
+        postDTO.setTimeCreated(post.getTimeCreated());
+        postDTO.setReplies(post.getReplies().stream().map(replyMapper::toDTO).toList());
         return postDTO;
     }
 

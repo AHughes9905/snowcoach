@@ -16,7 +16,8 @@ function PostPage() {
                     throw new Error("Failed to fetch post data");
                 }
                 const data = await response.json();
-                setPost(data); // Set the fetched post data
+                console.log("Fetched Post:", data); // Debug log
+                setPost(data); // Set the fetched post data, including replies
             } catch (err) {
                 setError(err.message); // Set the error message
             } finally {
@@ -59,8 +60,11 @@ function PostPage() {
     }
 
     if (!post) {
+        console.log("Post is null or undefined"); // Debug log
         return <p>No post data available.</p>; // Handle the case where no post is found
     }
+
+    console.log("Post State:", post); // Debug log
 
     return (
         <div className="post-page">
@@ -72,6 +76,20 @@ function PostPage() {
                 Claim Post
             </button>
             {claimMessage && <p>{claimMessage}</p>} {/* Display claim success or error message */}
+
+            {/* Display replies */}
+            <div className="replies-section">
+                <h3>Replies</h3>
+                {post.replies && post.replies.length > 0 ? (
+                    post.replies.map((reply) => (
+                        <div key={reply.id} className="reply">
+                            <p><strong>{reply.username}:</strong> {reply.content}</p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No replies yet.</p>
+                )}
+            </div>
         </div>
     );
 }

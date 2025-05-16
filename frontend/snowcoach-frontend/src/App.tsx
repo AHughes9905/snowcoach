@@ -5,7 +5,8 @@ import PreviewPage from './pages/PreviewPage';
 import PostPage from './pages/PostPage';
 import CreatePost from "./pages/CreatePost";
 import LoginPage from "./pages/LoginPage";
-import ClaimedPostsPage from "./pages/ClaimedPostsPage";
+import ClaimedPostsPage from "./pages/ClaimedPreviewPage";
+import ReplyPage from "./pages/ReplyPage";
 import NavBar from "./components/NavBar"; // Import the NavBar component
 import './App.css';
 
@@ -20,6 +21,7 @@ function App() {
                     <Route path="/create" element={<CreatePost />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/claimed-posts" element={<ClaimedPostsPage />} />
+                    <Route path="/post/:id/reply" element={<ReplyPage />} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>

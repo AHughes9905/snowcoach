@@ -1,7 +1,7 @@
 package snowcoach.Service;
 
 import snowcoach.DTO.*;
-import snowcoach.Mapper.PostMapper;
+import snowcoach.Mapper.*;
 import snowcoach.Model.*;
 import snowcoach.Repository.*;
 import org.springframework.stereotype.Service;
@@ -15,11 +15,13 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final PostMapper postMapper;
+    private final ReplyMapper replyMapper;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, PostMapper postMapper) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, PostMapper postMapper, ReplyMapper replyMapper) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.postMapper = postMapper;
+        this.replyMapper = replyMapper;
     }
 
     public PostDTO createPost(PostDTO dto) {
@@ -84,5 +86,14 @@ public class PostService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         List<Post> posts = postRepository.findByClaimerId(user.getId());
         return posts.stream().map(postMapper::toDTO).toList();
+    }
+
+    public PostDTO addReply(ReplyDTO replyDTO) {
+        Post post = replyDTO.getPostId() != null ? postRepository.findById(replyDTO.getPostId())
+                .orElseThrow(() -> new RuntimeException("Post not found")) : null;
+        Reply reply = replyMapper.toEntity(replyDTO, post);
+        post.addReply(reply);
+        System.out.println(post.getReplies());
+        return postMapper.toDTO(postRepository.save(post));
     }
 }

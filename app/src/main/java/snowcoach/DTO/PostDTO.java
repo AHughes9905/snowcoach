@@ -1,5 +1,6 @@
 package snowcoach.DTO;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PostDTO {
 
@@ -13,10 +14,11 @@ public class PostDTO {
     private String username;
     private String claimerName;
     private LocalDateTime timeCreated; // New field
+    private List<ReplyDTO> replies;
 
     public PostDTO() {}
 
-    public PostDTO(Long id, String body, String title, String topic, int level, String mediaUrl, String visibility, String username, String claimerName, LocalDateTime timeCreated) {
+    public PostDTO(Long id, String body, String title, String topic, int level, String mediaUrl, String visibility, String username, String claimerName, LocalDateTime timeCreated, List<ReplyDTO> replies) {
         this.id = id;
         this.body = body;
         this.mediaUrl = mediaUrl;
@@ -26,7 +28,8 @@ public class PostDTO {
         this.topic = topic;
         this.level = level;
         this.claimerName = claimerName;
-        this.timeCreated = timeCreated; // New field
+        this.timeCreated = timeCreated;
+        this.replies = replies;
     }
 
     // Getters and Setters
@@ -108,5 +111,13 @@ public class PostDTO {
 
     public void setTimeCreated(LocalDateTime timeCreated) {
         this.timeCreated = timeCreated;
+    }
+
+    public List<ReplyDTO> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<ReplyDTO> replies) {
+        this.replies = replies;
     }
 }
