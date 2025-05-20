@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1e0dde2-5222-4bc5-80f3-2b19a8cf04c9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/DTO/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/DTO/UserDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/context/AuthContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/ModDbService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/InitDbService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/InitDbService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/LoginPage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

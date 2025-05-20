@@ -32,7 +32,10 @@
 //        readPrivilege.setName("READ_PRIVILEGE");
 //        Privilege writePrivilege = new Privilege();
 //        writePrivilege.setName("WRITE_PRIVILEGE");
-//        privilegeRepository.saveAll(Arrays.asList(readPrivilege, writePrivilege));
+//        Privilege claimPrivilege = new Privilege();
+//        claimPrivilege.setName("CLAIM_PRIVILEGE");
+//
+//        privilegeRepository.saveAll(Arrays.asList(readPrivilege, writePrivilege, claimPrivilege));
 //
 //        Role adminRole = new Role();
 //        adminRole.setName("ROLE_ADMIN");
@@ -41,13 +44,48 @@
 //
 //        Role userRole = new Role();
 //        userRole.setName("ROLE_USER");
-//        userRole.setPrivileges(Arrays.asList(readPrivilege));
+//        userRole.setPrivileges(Arrays.asList(readPrivilege, writePrivilege));
 //        roleRepository.save(userRole);
+//
+//        Role coach1Role = new Role();
+//        coach1Role.setName("ROLE_COACH1");
+//        coach1Role.setPrivileges(Arrays.asList(readPrivilege, writePrivilege, claimPrivilege));
+//        roleRepository.save(coach1Role);
+//
+//        Role coach2Role = new Role();
+//        coach2Role.setName("ROLE_COACH2");
+//        coach2Role.setPrivileges(Arrays.asList(readPrivilege, writePrivilege, claimPrivilege));
+//        roleRepository.save(coach2Role);
+//
+//        Role coach3Role = new Role();
+//        coach3Role.setName("ROLE_COACH3");
+//        coach3Role.setPrivileges(Arrays.asList(readPrivilege, writePrivilege, claimPrivilege));
+//        roleRepository.save(coach3Role);
+//
+//
+//        User coach2 = new User();
+//        coach2.setUsername("coach2");
+//        coach2.setPassword("pass123");
+//        coach2.setRoles(Arrays.asList(coach1Role, coach2Role));
+//        userRepository.save(coach2);
+//
+//        User coach3 = new User();
+//        coach3.setUsername("coach3");
+//        coach3.setPassword("pass123");
+//        coach3.setRoles(Arrays.asList(coach1Role, coach2Role, coach3Role));
+//        userRepository.save(coach3);
+//
+//        User athlete = new User();
+//        athlete.setUsername("athlete");
+//        athlete.setPassword("pass123");
+//        athlete.setRoles(Arrays.asList(userRole));
+//        userRepository.save(athlete);
+//
 //
 //        User admin = new User();
 //        admin.setUsername("admin");
 //        admin.setPassword("admin123");
-//        admin.setRoles(Arrays.asList(adminRole));
+//        admin.setRoles(Arrays.asList(adminRole, coach1Role, coach2Role, coach3Role));
 //        userRepository.save(admin);
 //    }
 //}

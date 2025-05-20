@@ -30,14 +30,10 @@ function LoginPage() {
                 throw new Error("Login failed. Please check your credentials.");
             }
 
-
-
             const result = await response.json();
-            console.log(result);
-            console.log(result.roleNames);
             login({ roles: result.roleNames, username: result.username }); // Store user info in context
             alert("Login successful!");
-            console.log("Stored roles", user?.roles);
+            window.location.href = "/"; // Redirect to home page after successful login
         } catch (error) {
             console.error("Error during login:", error);
             alert("Failed to log in. Please try again.");
