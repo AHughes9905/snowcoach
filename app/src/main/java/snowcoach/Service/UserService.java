@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import snowcoach.DTO.UserAuthDTO;
 import snowcoach.DTO.UserDTO;
 import snowcoach.DTO.UserRegistrationDTO;
@@ -21,6 +22,8 @@ public class UserService {
     private final AuthenticationManager authenticationManager;;
     private JwtUtil jwtUtil;
 
+    public BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+
     public UserService(UserRepository userRepository, UserMapper userMapper, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
@@ -31,7 +34,7 @@ public class UserService {
     public void createUser(UserRegistrationDTO userRegistrationDTO) {
         User user = new User();
         user.setUsername(userRegistrationDTO.getUsername());
-        user.setPassword(userRegistrationDTO.getPassword());
+        user.setPassword(encoder.encode(userRegistrationDTO.getPassword()));
         user.setRoles(userRegistrationDTO.getRoles());
         userRepository.save(user);
         return;
@@ -65,7 +68,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setUsername(userAuthDTO.getUsername());
-        user.setPassword(userAuthDTO.getPassword());
+        user.setPassword(encoder.encode(userAuthDTO.getPassword()));
         User updatedUser = userRepository.save(user);
         return userMapper.toDTO(updatedUser);
     }

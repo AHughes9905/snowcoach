@@ -68,6 +68,7 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAuthority('CLAIM_PRIVILEGE')")
     @PutMapping("/{id}/claim")
     //@PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
     public ResponseEntity<PostDTO> claimPost(@PathVariable Long id, @CookieValue(value = "jwt", required = false) String jwt) {
