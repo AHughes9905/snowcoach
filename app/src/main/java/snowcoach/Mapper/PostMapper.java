@@ -29,7 +29,10 @@ public class PostMapper {
         postDTO.setLevel(post.getLevel());
         postDTO.setClaimer(null);
         postDTO.setTimeCreated(post.getTimeCreated());
-        postDTO.setReplies(post.getReplies().stream().map(replyMapper::toDTO).toList());
+        if (post.getClaimer() != null) {
+            postDTO.setReplies(post.getReplies().stream().map(replyMapper::toDTO).toList());
+        }
+
         return postDTO;
     }
 

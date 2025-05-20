@@ -8,7 +8,7 @@ function CreatePost() {
         level: "",
         topic: "",
         body: "",
-        username: "", 
+        username: user?.username || "", 
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -45,7 +45,7 @@ function CreatePost() {
             alert("Post created successfully!");
 
             // Reset the form
-            setFormData({ title: "", level: "", topic: "", body: "", username: "" });
+            setFormData({ title: "", level: "", topic: "", body: "", username: user?.username || "" });
         } catch (error) {
             console.error("Error creating post:", error);
             alert("Failed to create post. Please try again.");

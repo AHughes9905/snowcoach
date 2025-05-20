@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function ReplyPage() {
     const { id } = useParams(); // Extract the post ID from the URL
@@ -102,7 +103,7 @@ function ReplyPage() {
                 {post.replies && post.replies.length > 0 ? (
                     post.replies.map((reply) => (
                         <div key={reply.id} className="reply">
-                            <p><strong>{reply.username}:</strong> {reply.content}</p>
+                            <p><strong>{reply.user?.username}:</strong> {reply.content}</p>
                         </div>
                     ))
                 ) : (

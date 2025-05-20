@@ -31,6 +31,7 @@ public class PostController {
 
     @PostMapping("/create")
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO dto, @CookieValue(value = "jwt", required = false) String jwt) {
+        System.out.println("here");
         dto.setUsername(jwtUtil.extractUsername(jwt));
         PostDTO createdPost = postService.createPost(dto);
         return ResponseEntity.ok(createdPost);
