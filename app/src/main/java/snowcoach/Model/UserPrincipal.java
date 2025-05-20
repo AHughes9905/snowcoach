@@ -1,10 +1,13 @@
 package snowcoach.Model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserPrincipal implements UserDetails {
 
@@ -16,8 +19,25 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles();
+        Set<GrantedAuthority> authorities = new HashSet<>();
+
+        for (Role role : this.user.getRoles()) {
+            // Add the role itself
+            authorities.add(role); // assuming role implements GrantedAuthority
+
+            // Add all its privileges
+            for (Privilege privilege : role.getPrivileges()) {
+                authorities.add(new SimpleGrantedAuthority(privilege.getName()));
+            }
+        }
+
+        return authorities;
     }
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return user.getRoles();
+//    }
 
     @Override
     public String getPassword() {

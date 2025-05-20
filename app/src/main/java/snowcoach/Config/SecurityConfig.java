@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .requestMatchers("api/user/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("api/posts/create").hasAnyRole("COACH1", "COACH2", "COACH3", "ADMIN", "USER")
-                .requestMatchers("api/posts/**").hasAnyRole("COACH1", "COACH2", "COACH3", "ADMIN")
+                .requestMatchers("api/posts/{id}/claim").hasAnyAuthority("CLAIM_PRIVILEGE")
                 .requestMatchers("api/auth/login", "api/auth/register").permitAll()
                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults()).
