@@ -14,10 +14,10 @@ public class UserDTO {
 
     public UserDTO() {}
 
-    public UserDTO(String username, Collection<Role> roles, Long id) {
+    public UserDTO(String username, Collection<String> roleNames, Long id) {
         this.id = id;
         this.username = username;
-        this.roleNames = extractRoleNames(roles);
+        this.roleNames = roleNames;
     }
 
     public static Collection<String> extractRoleNames(Collection<Role> roles) {
@@ -35,7 +35,7 @@ public class UserDTO {
         this.username = username;
     }
 
-    public Collection<String> getRoles() {
+    public Collection<String> getRoleNames() {
         return roleNames;
     }
 
@@ -50,4 +50,12 @@ public class UserDTO {
     public void setId(Long id) {
         this.id = id;
     }
+
+//    public void setRoleNames(Collection<String> roleNames) {
+//        this.roleNames = roleNames;
+//    }
+//
+//    public List<String> getRoleNames() {
+//        this.roleNames = extractRoleNames(roles);
+//    }
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 function LoginPage() {
-    const { login } = useAuth();
+    const { login, user } = useAuth();
     const [formData, setFormData] = useState({ username: "", password: "" });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,11 +30,14 @@ function LoginPage() {
                 throw new Error("Login failed. Please check your credentials.");
             }
 
+
+
             const result = await response.json();
             console.log(result);
-            console.log(result.username)
-            login({ userId: result.userId, username: result.username }); // Store user info in context
+            console.log(result.roleNames);
+            login({ roles: result.roleNames, username: result.username }); // Store user info in context
             alert("Login successful!");
+            console.log("Stored roles", user?.roles);
         } catch (error) {
             console.error("Error during login:", error);
             alert("Failed to log in. Please try again.");

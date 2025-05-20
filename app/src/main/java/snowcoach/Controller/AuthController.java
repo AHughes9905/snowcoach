@@ -2,6 +2,7 @@ package snowcoach.Controller;
 
 import snowcoach.DTO.AuthRespDTO;
 import snowcoach.DTO.UserAuthDTO;
+import snowcoach.DTO.UserDTO;
 import snowcoach.DTO.UserRegistrationDTO;
 import snowcoach.Model.User;
 import snowcoach.Service.UserService;
@@ -49,8 +50,9 @@ public class AuthController {
             jwtCookie.setHttpOnly(true);
             jwtCookie.setSecure(true);
             response.addCookie(jwtCookie);
+            UserDTO userDTO = userService.getUserDTOByName(userAuthDTO.getUsername());
 
-            return ResponseEntity.ok(new AuthRespDTO(userAuthDTO.getUsername() , "Login successful"));
+            return ResponseEntity.ok(userDTO);
         } catch (Exception e) {
             System.out.println(userAuthDTO.getUsername());
             System.out.println(e.getMessage());

@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 interface User {
-    userId: string;
+    roles: string[];
     username: string;
 }
 
@@ -29,19 +29,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(null); // Clear user info in state
         localStorage.removeItem("user"); // Remove user info from localStorage
     };
-
-    useEffect(() => {
-        // Optional: Sync state with localStorage in case it changes externally
-        const handleStorageChange = () => {
-            const storedUser = localStorage.getItem("user");
-            setUser(storedUser ? JSON.parse(storedUser) : null);
-        };
-
-        window.addEventListener("storage", handleStorageChange);
-        return () => {
-            window.removeEventListener("storage", handleStorageChange);
-        };
-    }, []);
 
     return (
         <AuthContext.Provider value={{ user, login, logout }}>

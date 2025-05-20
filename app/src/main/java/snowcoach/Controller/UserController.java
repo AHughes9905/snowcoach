@@ -16,7 +16,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    //need to change response from UserDTO to different type of DTO
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
         UserDTO user = userService.getUserDTOById(id);
