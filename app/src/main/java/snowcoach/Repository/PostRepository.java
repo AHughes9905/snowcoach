@@ -10,6 +10,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByVisibility(String visibility);
     List<Post> findByUserId(Long userId);
 
+
     
     List<Post> findByTitle(String title);
     List<Post> findByTopic(String topic);

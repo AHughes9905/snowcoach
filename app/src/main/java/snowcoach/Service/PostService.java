@@ -16,12 +16,14 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostMapper postMapper;
     private final ReplyMapper replyMapper;
+    private final UserService userService;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, PostMapper postMapper, ReplyMapper replyMapper) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, PostMapper postMapper, ReplyMapper replyMapper, UserService userService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.postMapper = postMapper;
         this.replyMapper = replyMapper;
+        this.userService = userService;
     }
 
     public PostDTO createPost(PostDTO dto) {
@@ -65,6 +67,11 @@ public class PostService {
         post.setClaimer(user);
         System.out.println(post.getClaimer().getUsername());
         return postMapper.toDTO(postRepository.save(post));
+    }
+
+    public List<PostDTO> getPostsByUsername(String username) {
+        User user = userService.getUserByName(username);
+        return getPostsByUserId(user.getId());
     }
 
     public List<PostDTO> getPostsByUserId(Long userId) {

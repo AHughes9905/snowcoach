@@ -7,11 +7,10 @@
     <list default="true" id="f1e0dde2-5222-4bc5-80f3-2b19a8cf04c9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Mapper/PostMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Mapper/PostMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Repository/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Repository/PostRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/PostService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/ClaimedPreviewPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/ClaimedPreviewPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/PostPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/PostPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/HomePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/HomePage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

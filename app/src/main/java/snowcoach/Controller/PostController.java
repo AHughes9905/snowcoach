@@ -78,6 +78,12 @@ public class PostController {
         return ResponseEntity.ok(claimedPost);
     }
 
+    @GetMapping("/my-posts")
+    public ResponseEntity<List<PostDTO>> getUserPosts(@CookieValue(value = "jwt", required = false) String jwt) {
+        List<PostDTO> posts = postService.getPostsByUsername(jwtUtil.extractUsername(jwt));
+        return ResponseEntity.ok(posts);
+    }
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<PostDTO>> getPostsByUser(@PathVariable Long userId) {
         List<PostDTO> posts = postService.getPostsByUserId(userId);

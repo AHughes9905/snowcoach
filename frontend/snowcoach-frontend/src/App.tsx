@@ -9,6 +9,7 @@ import ClaimedPostsPage from "./pages/ClaimedPreviewPage";
 import ReplyPage from "./pages/ReplyPage";
 import NavBar from "./components/NavBar"; // Import the NavBar component
 import HomePage from './pages/HomePage';
+import MyPostsPreviewPage from "./pages/MyPostsPreviewPage";
 import './App.css';
 
 function App() {
@@ -24,8 +25,7 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/claimed-posts" element={<ClaimedPostsPage />} />
                     <Route path="/post/:id/reply" element={<ReplyPage />} />
-                    {/* Placeholder for My Posts */}
-                    <Route path="/my-posts" element={<div>My Posts Page (to implement)</div>} />
+                    <Route path="/my-posts" element={<MyPostsPreviewPage />} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>

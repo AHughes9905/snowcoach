@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import MyPostsPreviewPage from "./MyPostsPreviewPage";
 
 function HomePage() {
     const { user } = useAuth();
