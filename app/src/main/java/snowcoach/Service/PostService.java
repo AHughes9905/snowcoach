@@ -63,6 +63,7 @@ public class PostService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         post.setClaimer(user);
+        System.out.println(post.getClaimer().getUsername());
         return postMapper.toDTO(postRepository.save(post));
     }
 

@@ -8,20 +8,24 @@ import LoginPage from "./pages/LoginPage";
 import ClaimedPostsPage from "./pages/ClaimedPreviewPage";
 import ReplyPage from "./pages/ReplyPage";
 import NavBar from "./components/NavBar"; // Import the NavBar component
+import HomePage from './pages/HomePage';
 import './App.css';
 
 function App() {
     return (
         <AuthProvider>
             <BrowserRouter>
-                <NavBar /> {}
+                <NavBar />
                 <Routes>
-                    <Route path="/" element={<PreviewPage />} />
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/preview" element={<PreviewPage />} />
                     <Route path="/post/:id" element={<PostPage />} />
                     <Route path="/create" element={<CreatePost />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/claimed-posts" element={<ClaimedPostsPage />} />
                     <Route path="/post/:id/reply" element={<ReplyPage />} />
+                    {/* Placeholder for My Posts */}
+                    <Route path="/my-posts" element={<div>My Posts Page (to implement)</div>} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>

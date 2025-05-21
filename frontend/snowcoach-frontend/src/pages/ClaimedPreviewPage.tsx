@@ -45,7 +45,7 @@ function ClaimedPostsPage() {
     }
 
     const handleReply = (postId: number) => {
-        navigate(`/post/${postId}/reply`); // Navigate to the reply creation page
+        navigate(`/post/${postId}`); // Navigate to the post page instead of the reply page
     };
 
     return (
@@ -57,7 +57,7 @@ function ClaimedPostsPage() {
                         <PostPreview
                             post={post}
                             key={post.id}
-                            buttonLabel="Reply"
+                            buttonLabel="View Post"
                             buttonAction={handleReply}
                         />
                     ))

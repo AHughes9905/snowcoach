@@ -27,7 +27,14 @@ public class PostMapper {
         postDTO.setTitle(post.getTitle());
         postDTO.setTopic(post.getTopic());
         postDTO.setLevel(post.getLevel());
-        postDTO.setClaimer(null);
+
+        if (post.getClaimer() != null) {
+            postDTO.setClaimer(post.getClaimer().getUsername());
+            postDTO.setReplies(post.getReplies().stream().map(replyMapper::toDTO).toList());
+        } else {
+            postDTO.setClaimer(null);
+        }
+
         postDTO.setTimeCreated(post.getTimeCreated());
         if (post.getClaimer() != null) {
             postDTO.setReplies(post.getReplies().stream().map(replyMapper::toDTO).toList());

@@ -1,27 +1,42 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function PostPage() {
-    const { id } = useParams(); // Extract the post ID from the URL
-    const [post, setPost] = useState(null); // State to store the post data
-    const [loading, setLoading] = useState(true); // State to handle loading
-    const [error, setError] = useState(null); // State to handle errors
+    const { id } = useParams();
+    const { user } = useAuth();
+    const [post, setPost] = useState(null);
+    const [reply, setReply] = useState({
+        content: "",
+        postId: id,
+        username: user?.username || "",
+        id: null,
+    });
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [claimMessage, setClaimMessage] = useState(""); // State to handle claim success or error messages
 
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/posts/${id}`, { credentials: "include" });
+                const response = await fetch(`http://localhost:8080/api/posts/${id}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                });
+
                 if (!response.ok) {
-                    throw new Error("Failed to fetch post data");
+                    throw new Error("Failed to fetch post details");
                 }
+
                 const data = await response.json();
-                console.log("Fetched Post:", data); // Debug log
-                setPost(data); // Set the fetched post data, including replies
-            } catch (err) {
-                setError(err.message); // Set the error message
+                setPost(data);
+            } catch (error) {
+                setError(error.message);
             } finally {
-                setLoading(false); // Stop loading
+                setLoading(false);
             }
         };
 
@@ -51,27 +66,57 @@ function PostPage() {
         }
     };
 
+    const handleReplySubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/posts/${id}/reply`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify(reply),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to submit reply");
+            }
+
+            const newReply = await response.json();
+            setPost((prevPost) => ({
+                ...prevPost,
+                replies: [...prevPost.replies, newReply],
+            }));
+            setReply((prevReply) => ({
+                ...prevReply,
+                content: "",
+            }));
+        } catch (error) {
+            alert("Failed to submit reply. Please try again.");
+        }
+    };
+
     if (loading) {
-        return <p>Loading post...</p>; // Show a loading message while fetching
+        return <p>Loading post details...</p>;
     }
 
     if (error) {
-        return <p>Error: {error}</p>; // Show an error message if fetching fails
+        return <p>Error: {error}</p>;
     }
 
     if (!post) {
-        console.log("Post is null or undefined"); // Debug log
-        return <p>No post data available.</p>; // Handle the case where no post is found
+        return <p>No post data available.</p>;
     }
 
-    console.log("Post State:", post); // Debug log
+    const { replies } = post;
 
     return (
         <div className="post-page">
             <h1>{post.title}</h1>
             <h2>Level: {post.level}</h2>
             <p>Topic: {post.topic}</p>
-            {/* Display media if present */}
+            {/* Display post media if present */}
             {post.mediaUrl && (
                 <div className="post-media">
                     {/\.(mp4|webm|ogg)$/i.test(post.mediaUrl) ? (
@@ -89,24 +134,51 @@ function PostPage() {
                 </div>
             )}
             <p>{post.body}</p>
-            <button onClick={handleClaimPost} className="claim-post-btn">
-                Claim Post
-            </button>
+            {/* Only show the claim button if there is no claimer */}
+            {!post.claimer && (
+                <button onClick={handleClaimPost} className="claim-post-btn">
+                    Claim Post
+                </button>
+            )}
             {claimMessage && <p>{claimMessage}</p>} {/* Display claim success or error message */}
 
             {/* Display replies */}
             <div className="replies-section">
                 <h3>Replies</h3>
-                {post.replies && post.replies.length > 0 ? (
-                    post.replies.map((reply) => (
+                {replies && replies.length > 0 ? (
+                    replies.map((reply) => (
                         <div key={reply.id} className="reply">
-                            <p><strong>{reply.username}:</strong> {reply.content}</p>
+                            <p>
+                                <strong>{reply.username}:</strong> {reply.content}
+                            </p>
                         </div>
                     ))
                 ) : (
                     <p>No replies yet.</p>
                 )}
             </div>
+
+            {/* Reply form only if post is claimed */}
+            {post.claimer === user?.username ? (
+                <form onSubmit={handleReplySubmit}>
+                    <textarea
+                        value={reply.content}
+                        onChange={(e) =>
+                            setReply((prevReply) => ({
+                                ...prevReply,
+                                content: e.target.value,
+                            }))
+                        }
+                        placeholder="Write your reply here..."
+                        required
+                    />
+                    <button type="submit">Submit Reply</button>
+                </form>
+            ) : post.claimed ? (
+                <p>Only the claimer can reply to this post.</p>
+            ) : (
+                <p>This post must be claimed before you can reply.</p>
+            )}
         </div>
     );
 }
