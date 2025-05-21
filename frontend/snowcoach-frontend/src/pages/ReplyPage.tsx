@@ -86,6 +86,8 @@ function ReplyPage() {
         return <p>No post data available.</p>; // Handle the case where no post is found
     }
 
+    const { replies } = post; // Destructure replies from post
+
     return (
         <div className="reply-page">
             <h1>Reply to Post</h1>
@@ -94,16 +96,34 @@ function ReplyPage() {
                 <h2>{post.title}</h2>
                 <p>Level: {post.level}</p>
                 <p>Topic: {post.topic}</p>
+                {/* Display post media if present */}
+                {post.mediaUrl && (
+                    <div className="post-media">
+                        {/\.(mp4|webm|ogg)$/i.test(post.mediaUrl) ? (
+                            <video controls width="480">
+                                <source src={`http://localhost:8080${post.mediaUrl}`} />
+                                Your browser does not support the video tag.
+                            </video>
+                        ) : (
+                            <img
+                                src={`http://localhost:8080${post.mediaUrl}`}
+                                alt="Post media"
+                                style={{ maxWidth: "480px", maxHeight: "360px" }}
+                            />
+                        )}
+                    </div>
+                )}
                 <p>{post.body}</p>
             </div>
 
             {/* Display replies */}
             <div className="replies-section">
                 <h3>Replies</h3>
-                {post.replies && post.replies.length > 0 ? (
-                    post.replies.map((reply) => (
+                {replies && replies.length > 0 ? (
+                    replies.map((reply) => (
                         <div key={reply.id} className="reply">
-                            <p><strong>{reply.user?.username}:</strong> {reply.content}</p>
+                            <p><strong>{reply.username}:</strong> {reply.content}</p>
+                            {/* Removed media display for replies */}
                         </div>
                     ))
                 ) : (

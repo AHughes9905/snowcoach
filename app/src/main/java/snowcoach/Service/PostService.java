@@ -34,7 +34,7 @@ public class PostService {
         post.setTimeCreated(LocalDateTime.now());
         post.setBody(dto.getBody());
         post.setVisibility("visible");
-        post.setMediaUrl("na");
+        post.setMediaUrl(dto.getMediaUrl() != null ? dto.getMediaUrl() : "");
         post.setUser(user);
         post.setClaimer(null);
         post.setTitle(dto.getTitle());

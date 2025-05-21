@@ -37,7 +37,7 @@ public class MediaService {
         Files.copy(file.getInputStream(), targetLocation);
 
         // Return the URL or path to the uploaded file
-        return "/api/media/" + uniqueFileName;
+        return "/media/" + uniqueFileName;
     }
 
     public Resource getMediaAsResource(String mediaId) throws Exception {

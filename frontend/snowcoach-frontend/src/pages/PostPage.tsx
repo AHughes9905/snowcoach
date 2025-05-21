@@ -71,6 +71,23 @@ function PostPage() {
             <h1>{post.title}</h1>
             <h2>Level: {post.level}</h2>
             <p>Topic: {post.topic}</p>
+            {/* Display media if present */}
+            {post.mediaUrl && (
+                <div className="post-media">
+                    {/\.(mp4|webm|ogg)$/i.test(post.mediaUrl) ? (
+                        <video controls width="480">
+                            <source src={`http://localhost:8080${post.mediaUrl}`} />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) : (
+                        <img
+                            src={`http://localhost:8080${post.mediaUrl}`}
+                            alt="Post media"
+                            style={{ maxWidth: "480px", maxHeight: "360px" }}
+                        />
+                    )}
+                </div>
+            )}
             <p>{post.body}</p>
             <button onClick={handleClaimPost} className="claim-post-btn">
                 Claim Post

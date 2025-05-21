@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .requestMatchers("api/posts/create").hasAnyRole("COACH1", "COACH2", "COACH3", "ADMIN", "USER")
                 .requestMatchers("api/posts/{id}/claim").hasAnyAuthority("CLAIM_PRIVILEGE")
                 .requestMatchers("api/auth/login", "api/auth/register").permitAll()
+                .requestMatchers("/media/**").permitAll()
                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults()).
                 sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
