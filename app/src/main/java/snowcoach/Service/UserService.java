@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import snowcoach.Util.JwtUtil;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -61,6 +62,11 @@ public class UserService {
         User user = userRepository.findByUsername(name)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return userMapper.toDTO(user);
+    }
+
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(userMapper::toDTO).toList();
     }
 
     public User getUserByName(String name) {

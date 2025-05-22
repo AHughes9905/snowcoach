@@ -6,6 +6,9 @@ function HomePage() {
     const { user } = useAuth();
     const navigate = useNavigate();
 
+    // Helper to check for a role
+    const hasRole = (role: string) => user?.roles?.includes(role);
+
     useEffect(() => {
         if (!user) {
             navigate("/authenticate"); // Redirect to authenticate page if not logged in
@@ -21,6 +24,8 @@ function HomePage() {
                 <li><Link to="/claimed-posts">My Claimed Posts</Link></li>
                 <li><Link to="/my-posts">My Posts</Link></li>
                 <li><Link to="/preview">Preview Page</Link></li>
+                <li><Link to="/create">Create Post</Link></li>
+                {hasRole("ROLE_ADMIN") && <Link to="/admin">Admin Page</Link>}
             </ul>
         </div>
     );

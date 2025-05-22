@@ -12,6 +12,9 @@ import HomePage from './pages/HomePage';
 import MyPostsPreviewPage from "./pages/MyPostsPreviewPage";
 import RegisterPage from "./pages/RegisterPage";
 import AuthenticatePage from "./pages/AuthenticatePage";
+import ListUsersPage from "./pages/ListUsersPage";
+import AdminPage from "./pages/AdminPage";
+
 import './App.css';
 
 function App() {
@@ -31,6 +34,9 @@ function App() {
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/authenticate" element={<AuthenticatePage />} />
                     <Route path="*" element={<div>404 Not Found</div>} />
+                    <Route path="/admin" element={<AdminPage />} />
+                    <Route path="/list-users" element={<ListUsersPage />} />
+                    <Route path="/user/:id" element={<div>User Details Place Holder</div>} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
