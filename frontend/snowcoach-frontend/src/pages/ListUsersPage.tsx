@@ -36,7 +36,7 @@ function ListUsersPage() {
     }, []);
 
     const handleViewUser = (userId) => {
-        navigate(`/user/${userId}`); //need to implement view user page
+        navigate(`/edit-user/${userId}`); //need to implement view user page
     };
 
     if (loading) return <p>Loading users...</p>;
@@ -51,7 +51,7 @@ function ListUsersPage() {
                         <UserPreview
                             user={user}
                             key={user.id}
-                            buttonLabel="View User"
+                            buttonLabel="Edit User"
                             buttonAction={handleViewUser}
                         />
                     ))
