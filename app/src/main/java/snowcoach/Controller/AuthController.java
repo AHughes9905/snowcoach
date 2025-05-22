@@ -33,10 +33,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserRegistrationDTO userRegistrationDTO) {
+    public ResponseEntity<?> register(@RequestBody UserAuthDTO userAuthDTO) {
+        System.out.println("Registering user: " + userAuthDTO.getUsername());
+        System.out.println("Password: " + userAuthDTO.getPassword());
         try {
-            userService.createUser(userRegistrationDTO);
-            return ResponseEntity.ok("User registered successfully.");
+            if (userService.createUser(userAuthDTO)) {
+                return ResponseEntity.ok("User registered successfully.");
+            } else {
+                return ResponseEntity.badRequest().body("Username already taken.");
+            }
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

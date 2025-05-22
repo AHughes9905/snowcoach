@@ -7,9 +7,11 @@ import CreatePost from "./pages/CreatePost";
 import LoginPage from "./pages/LoginPage";
 import ClaimedPostsPage from "./pages/ClaimedPreviewPage";
 import ReplyPage from "./pages/ReplyPage";
-import NavBar from "./components/NavBar"; // Import the NavBar component
+import NavBar from "./components/NavBar";
 import HomePage from './pages/HomePage';
 import MyPostsPreviewPage from "./pages/MyPostsPreviewPage";
+import RegisterPage from "./pages/RegisterPage";
+import AuthenticatePage from "./pages/AuthenticatePage";
 import './App.css';
 
 function App() {
@@ -26,6 +28,9 @@ function App() {
                     <Route path="/claimed-posts" element={<ClaimedPostsPage />} />
                     <Route path="/post/:id/reply" element={<ReplyPage />} />
                     <Route path="/my-posts" element={<MyPostsPreviewPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/authenticate" element={<AuthenticatePage />} />
+                    <Route path="*" element={<div>404 Not Found</div>} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
