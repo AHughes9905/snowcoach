@@ -39,8 +39,8 @@ public class SecurityConfig {
                 .authorizeRequests(request -> request
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .requestMatchers("api/user/**").hasAnyRole("ADMIN")
-                .requestMatchers("api/posts/create").hasAnyRole("COACH1", "COACH2", "COACH3", "ADMIN", "USER")
-                .requestMatchers("api/posts/{id}/claim").hasAnyAuthority("CLAIM_PRIVILEGE")
+                .requestMatchers("api/posts/create").hasAnyAuthority("WRITE")
+                .requestMatchers("api/posts/{id}/claim").hasAnyAuthority("CLAIM")
                 .requestMatchers("api/auth/login", "api/auth/register").permitAll()
                 .requestMatchers("/media/**").permitAll()
                 .anyRequest().authenticated())

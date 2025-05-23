@@ -68,14 +68,20 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAuthority('CLAIM_PRIVILEGE')")
+    @PreAuthorize("hasAuthority('CLAIM')")
     @PutMapping("/{id}/claim")
-    //@PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
-    public ResponseEntity<PostDTO> claimPost(@PathVariable Long id, @CookieValue(value = "jwt", required = false) String jwt) {
-        System.out.println("Claiming post: " + jwtUtil.extractUsername(jwt));
-        PostDTO claimedPost = postService.claimPost(id, jwtUtil.extractUsername(jwt));
-        System.out.println("Claiming post: " + claimedPost.getClaimer());
-        return ResponseEntity.ok(claimedPost);
+    public ResponseEntity<Object> claimPost(@PathVariable Long id, @CookieValue(value = "jwt", required = false) String jwt) {
+        try {
+            // Call the service method
+            PostDTO claimedPost = postService.claimPost(id, jwtUtil.extractUsername(jwt));
+            return ResponseEntity.ok(claimedPost); // Return the claimed post if successful
+        } catch (SecurityException e) {
+            // Handle insufficient authority
+            return ResponseEntity.status(403).body(e.getMessage());
+        } catch (RuntimeException e) {
+            // Handle other errors like post not found or already claimed
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     @GetMapping("/my-posts")

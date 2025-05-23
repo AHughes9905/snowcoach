@@ -17,13 +17,15 @@ public class PostService {
     private final PostMapper postMapper;
     private final ReplyMapper replyMapper;
     private final UserService userService;
+    private final PrivilegeRepository privilegeRepository;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, PostMapper postMapper, ReplyMapper replyMapper, UserService userService) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, PostMapper postMapper, ReplyMapper replyMapper, UserService userService, PrivilegeRepository privilegeRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.postMapper = postMapper;
         this.replyMapper = replyMapper;
         this.userService = userService;
+        this.privilegeRepository = privilegeRepository;
     }
 
     public PostDTO createPost(PostDTO dto) {
@@ -64,8 +66,23 @@ public class PostService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        if (post.getClaimer() != null) {
+            throw new RuntimeException("Post already claimed");
+        }
+
+        // Check for required privileges based on post level
+        String requiredPrivilege = "TEACH" + post.getLevel();
+        boolean hasRequiredPrivilege = new UserPrincipal(user).getAuthorities()
+                .stream()
+                .anyMatch(authority -> authority.getAuthority().equals(requiredPrivilege));
+
+        if (!hasRequiredPrivilege) {
+            // Indicate insufficient authority to claim this post level
+            throw new SecurityException("Insufficient authority to claim level " + post.getLevel() + " post");
+        }
+
         post.setClaimer(user);
-        System.out.println(post.getClaimer().getUsername());
+        System.out.println("Claimer: " + post.getClaimer().getUsername());
         return postMapper.toDTO(postRepository.save(post));
     }
 

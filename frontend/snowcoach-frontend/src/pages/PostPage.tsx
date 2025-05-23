@@ -54,14 +54,24 @@ function PostPage() {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to claim the post");
+                // Try to read error message from backend
+                let errorMsg = "Failed to claim the post";
+                try {
+                    const errorData = await response.json();
+                    if (errorData && errorData.message) {
+                        errorMsg = errorData.message;
+                    }
+                } catch {
+                    // Ignore JSON parse errors, use default message
+                }
+                throw new Error(errorMsg);
             }
 
             const result = await response.json();
             setClaimMessage("Post claimed successfully!"); // Set success message
             console.log("Claim Result:", result);
         } catch (err) {
-            setClaimMessage("Failed to claim the post. Please try again."); // Set error message
+            setClaimMessage(err.message || "Failed to claim the post. Please try again."); // Set error message
             console.error("Error claiming post:", err);
         }
     };

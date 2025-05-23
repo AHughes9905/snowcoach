@@ -13,7 +13,7 @@ function NavBar() {
             <div className="navbar-links">
                 <Link to="/">Home</Link>
                 <Link to="/create">Create Post</Link>
-                {hasRole("ROLE_COACH1") && <Link to="/claimed-posts">My Claimed Posts</Link>}
+                {(hasRole("ROLE_COACH1") || hasRole("ROLE_COACH2") || hasRole("ROLE_COACH3")) && <Link to="/claimed-posts">My Claimed Posts</Link>}
             </div>
             <div className="navbar-auth">
                 {user ? (

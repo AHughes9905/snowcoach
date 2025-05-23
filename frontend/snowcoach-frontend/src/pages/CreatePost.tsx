@@ -113,10 +113,10 @@ function CreatePost() {
                         required
                     >
                         <option value="" disabled>Select a level</option>
-                        <option value="0">Beginner</option>
-                        <option value="1">Intermediate</option>
-                        <option value="2">Advanced</option>
-                        <option value="3">Expert/Certification</option>
+                        <option value="1">Beginner</option>
+                        <option value="2">Intermediate</option>
+                        <option value="3">Advanced</option>
+                        <option value="4">Expert/Certification</option>
                     </select>
                 </div>
                 <div className="form-group">
