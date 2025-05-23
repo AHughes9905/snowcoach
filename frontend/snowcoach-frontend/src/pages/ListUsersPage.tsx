@@ -9,6 +9,7 @@ function ListUsersPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -45,10 +46,17 @@ function ListUsersPage() {
     return (
         <div className="list-users-page">
             <h1>List of Users</h1>
+            <input
+            type="text"
+            placeholder="Search users..."
+            className="search-input"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            />
             <div className="list-users">
                 {users.length > 0 ? (
                     users.map((user) => (
-                        <UserPreview
+                        user.username.toLowerCase().startsWith(searchQuery) && <UserPreview
                             user={user}
                             key={user.id}
                             buttonLabel="Edit User"
