@@ -7,14 +7,6 @@ function PostPage() {
     const { id } = useParams();
     const { user } = useAuth();
     const [post, setPost] = useState(null);
-    const [reply, setReply] = useState({
-        content: "",
-        postId: id,
-        username: user?.username || "",
-        id: null,
-        mediaUrl: "",
-    });
-    const [replyMedia, setReplyMedia] = useState<File | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [claimMessage, setClaimMessage] = useState(""); // State to handle claim success or error messages
@@ -79,74 +71,6 @@ function PostPage() {
         }
     };
 
-    const handleReplyMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            setReplyMedia(e.target.files[0]);
-        } else {
-            setReplyMedia(null);
-        }
-    };
-
-    const handleReplySubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        try {
-            let response;
-            if (replyMedia) {
-                const data = new FormData();
-                data.append(
-                    "reply",
-                    new Blob(
-                        [JSON.stringify({
-                            content: reply.content,
-                            postId: id,
-                            username: user?.username || "",
-                        })],
-                        { type: "application/json" }
-                    )
-                );
-                data.append("file", replyMedia);
-
-                response = await fetch(`http://localhost:8080/api/posts/${id}/reply/media`, {
-                    method: "POST",
-                    credentials: "include",
-                    body: data,
-                });
-            } else {
-                response = await fetch(`http://localhost:8080/api/posts/${id}/reply`, {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        content: reply.content,
-                        postId: id,
-                        username: user?.username || "",
-                    }),
-                });
-            }
-
-            if (!response.ok) {
-                throw new Error("Failed to submit reply");
-            }
-
-            const newReply = await response.json();
-            setPost((prevPost) => ({
-                ...prevPost,
-                replies: [...prevPost.replies, newReply],
-            }));
-            setReply((prevReply) => ({
-                ...prevReply,
-                content: "",
-                mediaUrl: "",
-            }));
-            setReplyMedia(null);
-        } catch (error) {
-            alert("Failed to submit reply. Please try again.");
-        }
-    };
-
     if (loading) {
         return <p>Loading post details...</p>;
     }
@@ -158,8 +82,6 @@ function PostPage() {
     if (!post) {
         return <p>No post data available.</p>;
     }
-
-    const { replies } = post;
 
     return (
         <div className="post-page">
@@ -192,7 +114,7 @@ function PostPage() {
             )}
             {claimMessage && <p>{claimMessage}</p>} {/* Display claim success or error message */}
 
-            {/* Display Rpelies or Claim Button*/}
+            {/* Display Replies or Button if Claimer*/}
             {post.claimer && (
                 <div className="replies-section">
                 <RepliesSection post={post} /> 

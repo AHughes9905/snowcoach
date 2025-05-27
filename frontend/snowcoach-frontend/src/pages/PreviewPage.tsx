@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import PostPreview from "../components/PostPreview";
 
 function PreviewPage() {
-    const [posts, setPosts] = useState([]); // State to store the list of unclaimed posts
-    const [loading, setLoading] = useState(true); // State to handle loading
-    const [error, setError] = useState(null); // State to handle errors
-    const navigate = useNavigate(); // Hook to navigate between pages
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [selectedLevels, setSelectedLevels] = useState<number[]>([]); // Track selected levels
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUnclaimedPosts = async () => {
@@ -24,36 +25,67 @@ function PreviewPage() {
                 }
 
                 const result = await response.json();
-                setPosts(result); // Store the fetched posts in state
+                setPosts(result);
             } catch (error) {
                 console.error("Error retrieving unclaimed posts:", error);
-                setError(error.message); // Set the error message
+                setError(error.message);
             } finally {
-                setLoading(false); // Stop loading
+                setLoading(false);
             }
         };
 
         fetchUnclaimedPosts();
-    }, []); // Empty dependency array ensures this runs only once when the component mounts
+    }, []);
 
     if (loading) {
-        return <p>Loading posts...</p>; // Show a loading message while fetching
+        return <p>Loading posts...</p>;
     }
 
     if (error) {
-        return <p>Error: {error}</p>; // Show an error message if fetching fails
+        return <p>Error: {error}</p>;
     }
 
     const handleViewDetails = (postId: number) => {
-        navigate(`/post/${postId}`); // Navigate to the post details page
+        navigate(`/post/${postId}`);
     };
+
+    // Get all unique levels from posts for checkbox options
+    const allLevels = Array.from(new Set(posts.map((post) => post.level))).sort((a, b) => a - b);
+
+    // Handle checkbox change
+    const handleLevelChange = (level: number) => {
+        setSelectedLevels((prev) =>
+            prev.includes(level)
+                ? prev.filter((l) => l !== level)
+                : [...prev, level]
+        );
+    };
+
+    // Filter posts by selected levels (if any selected)
+    const filteredPosts =
+        selectedLevels.length === 0
+            ? posts
+            : posts.filter((post) => selectedLevels.includes(post.level));
 
     return (
         <div className="preview-page">
             <h1>Available Posts to Claim</h1>
+            <div style={{ marginBottom: "1rem" }}>
+                <span>Filter by Level: </span>
+                {allLevels.map((level) => (
+                    <label key={level} style={{ marginRight: "1em" }}>
+                        <input
+                            type="checkbox"
+                            checked={selectedLevels.includes(level)}
+                            onChange={() => handleLevelChange(level)}
+                        />
+                        Level {level}
+                    </label>
+                ))}
+            </div>
             <div className="preview-list">
-                {posts.length > 0 ? (
-                    posts.map((post) => (
+                {filteredPosts.length > 0 ? (
+                    filteredPosts.map((post) => (
                         <PostPreview
                             post={post}
                             key={post.id}

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+
+
 function EditUserPage() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -136,7 +138,7 @@ function EditUserPage() {
                         name="username"
                         value={eUser.username || ""}
                         onChange={handleChange}
-                        required
+                        disabled
                     />
                 </div>
                 <div>
@@ -151,18 +153,13 @@ function EditUserPage() {
                 </div>
                 <div>
                     <label>Roles:</label>
-                    <select
-                        name="roles"
-                        value={eUser.roles && eUser.roles[0] ? eUser.roles[0] : ""}
-                        onChange={handleRoleChange}
-                        required
-                    >
-                        <option value="">Select a role</option>
-                        <option value="ROLE_USER">User</option>
-                        <option value="ROLE_COACH1">Coach 1</option>
-                        <option value="ROLE_COACH2">Coach 2</option>
-                        <option value="ROLE_COACH3">Coach 3</option>
-                    </select>
+                    <input
+                        type="text"
+                        name="role"
+                        value={eUser.roleNames[0] || ""}
+                        onChange={handleChange}
+                        disabled
+                    />
                 </div>
                 <button type="submit">Save Changes</button>
                 <button type="button" style={{ marginLeft: "1em", color: "red" }} onClick={handleDelete}>
