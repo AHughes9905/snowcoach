@@ -199,45 +199,6 @@ function PostPage() {
             </div>
             ) }
             
-
-
-
-            {/* Reply form only if post is claimed */}
-            {post.claimer === user?.username ? (
-                <form onSubmit={handleReplySubmit} className="create-post-form">
-                    <div className="form-group">
-                        <label htmlFor="reply-content">Reply:</label>
-                        <textarea
-                            id="reply-content"
-                            name="content"
-                            value={reply.content}
-                            onChange={(e) =>
-                                setReply((prevReply) => ({
-                                    ...prevReply,
-                                    content: e.target.value,
-                                }))
-                            }
-                            placeholder="Write your reply here..."
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="reply-media">Media (photo or video):</label>
-                        <input
-                            type="file"
-                            id="reply-media"
-                            name="media"
-                            accept="image/*,video/*"
-                            onChange={handleReplyMediaChange}
-                        />
-                    </div>
-                    <button type="submit">Submit Reply</button>
-                </form>
-            ) : post.claimed ? (
-                <p>Only the claimer can reply to this post.</p>
-            ) : (
-                <p>This post must be claimed before you can reply.</p>
-            )}
         </div>
     );
 }

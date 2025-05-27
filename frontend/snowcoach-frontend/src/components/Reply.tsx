@@ -16,9 +16,7 @@ function Reply( { reply }: { reply: ReplyProp }) {
 
     return (
         <div className="post-preview">
-            <p>
-                <strong>{reply.username}:</strong> {reply.content}
-            </p>
+        
             {reply.mediaUrl && (
                 <div className="reply-media">
                     {/\.(mp4|webm|ogg)$/i.test(reply.mediaUrl) ? (
@@ -35,7 +33,9 @@ function Reply( { reply }: { reply: ReplyProp }) {
                     )}
                 </div>
             )}
-            
+            <p>
+                <strong>{reply.username}:</strong> {reply.content}
+            </p>
         </div>
     );
 }
