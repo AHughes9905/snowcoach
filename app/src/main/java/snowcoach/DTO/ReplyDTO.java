@@ -5,14 +5,16 @@ public class ReplyDTO {
     private String content;
     private String username;
     private Long postId;
+    private String mediaUrl;
 
     public ReplyDTO() {}
 
-    public ReplyDTO(Long id, String content, String username, Long postId) {
+    public ReplyDTO(Long id, String content, String username, Long postId, String mediaUrl) {
         this.id = id;
         this.content = content;
         this.username = username;
         this.postId = postId;
+        this.mediaUrl = mediaUrl;
     }
 
     public Long getId() {
@@ -40,5 +42,11 @@ public class ReplyDTO {
     }
     public void setPostId(Long postId) {
         this.postId = postId;
+    }
+    public String getMediaUrl() {
+        return mediaUrl;
+    }
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
     }
 }

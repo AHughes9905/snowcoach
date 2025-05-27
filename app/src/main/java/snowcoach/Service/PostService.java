@@ -116,9 +116,10 @@ public class PostService {
     public PostDTO addReply(ReplyDTO replyDTO) {
         Post post = replyDTO.getPostId() != null ? postRepository.findById(replyDTO.getPostId())
                 .orElseThrow(() -> new RuntimeException("Post not found")) : null;
-        Reply reply = replyMapper.toEntity(replyDTO, post);
+        System.out.println("replyDTO mediaUrl inside addReply -----" + replyDTO.getMediaUrl());
+        Reply reply = ReplyMapper.toEntity(replyDTO, post);
         post.addReply(reply);
-        System.out.println(post.getReplies());
+        System.out.println("saved mediaurl --" + reply.getMediaUrl());
         return postMapper.toDTO(postRepository.save(post));
     }
 }

@@ -23,7 +23,8 @@ public class ReplyMapper {
                 reply.getId(),
                 reply.getContent(),
                 reply.getUsername(),
-                reply.getId()
+                reply.getPost().getId(),
+                reply.getMediaUrl()
         );
     }
 
@@ -44,6 +45,7 @@ public class ReplyMapper {
         reply.setContent(replyDto.getContent());
         reply.setUsername(replyDto.getUsername());
         reply.setPost(post);
+        reply.setMediaUrl(replyDto.getMediaUrl());
         return reply;
     }
     

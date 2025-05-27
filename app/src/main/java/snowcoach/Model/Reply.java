@@ -21,6 +21,9 @@ public class Reply {
     @Column(nullable = false)
     private String username;
 
+    @Column
+    private String mediaUrl;
+
     // Default constructor is required for JPA/Hibernate
     public Reply() {}
 
@@ -55,5 +58,13 @@ public class Reply {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getMediaUrl() {
+        return mediaUrl;
+    }
+
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
     }
 }

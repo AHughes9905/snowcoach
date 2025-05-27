@@ -114,10 +114,36 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    // Need to check if post is claimed and/or only poster and claimer can reply
     @PostMapping("/{id}/reply")
-    public ResponseEntity<PostDTO> addReply(@RequestBody ReplyDTO reply, @CookieValue(value = "jwt", required = false) String jwt) {
+    public ResponseEntity<ReplyDTO> addReply(
+            @RequestBody ReplyDTO reply,
+            @CookieValue(value = "jwt", required = false) String jwt) {
         reply.setUsername(jwtUtil.extractUsername(jwt));
         PostDTO post = postService.addReply(reply);
-        return ResponseEntity.ok(post);
+        ReplyDTO replyDTO = post.getReplies().getLast();
+        return ResponseEntity.ok(replyDTO);
+    }
+
+    @PostMapping("/{id}/reply/media")
+    public ResponseEntity<ReplyDTO> createPostWithMedia(
+            @CookieValue(value = "jwt", required = false) String jwt,
+            @RequestPart("reply") ReplyDTO reply,
+            @RequestPart("file") MultipartFile file) {
+        try {
+            // Upload the media file and get its URL
+            String mediaUrl = mediaService.uploadMedia(file);
+
+            // Attach the media URL to the post DTO
+            reply.setMediaUrl(mediaUrl);
+            reply.setUsername(jwtUtil.extractUsername(jwt));
+            System.out.println("medial url for reply " + reply.getMediaUrl());
+            // Create the post with the attached media
+            PostDTO post = postService.addReply(reply);
+            ReplyDTO replyDTO = post.getReplies().getLast();
+            return ResponseEntity.ok(replyDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
     }
 }

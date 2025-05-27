@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import RepliesSection from "../components/RepliesSection";
 
 function PostPage() {
     const { id } = useParams();
@@ -11,7 +12,9 @@ function PostPage() {
         postId: id,
         username: user?.username || "",
         id: null,
+        mediaUrl: "",
     });
+    const [replyMedia, setReplyMedia] = useState<File | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [claimMessage, setClaimMessage] = useState(""); // State to handle claim success or error messages
@@ -76,18 +79,53 @@ function PostPage() {
         }
     };
 
+    const handleReplyMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setReplyMedia(e.target.files[0]);
+        } else {
+            setReplyMedia(null);
+        }
+    };
+
     const handleReplySubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:8080/api/posts/${id}/reply`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify(reply),
-            });
+            let response;
+            if (replyMedia) {
+                const data = new FormData();
+                data.append(
+                    "reply",
+                    new Blob(
+                        [JSON.stringify({
+                            content: reply.content,
+                            postId: id,
+                            username: user?.username || "",
+                        })],
+                        { type: "application/json" }
+                    )
+                );
+                data.append("file", replyMedia);
+
+                response = await fetch(`http://localhost:8080/api/posts/${id}/reply/media`, {
+                    method: "POST",
+                    credentials: "include",
+                    body: data,
+                });
+            } else {
+                response = await fetch(`http://localhost:8080/api/posts/${id}/reply`, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        content: reply.content,
+                        postId: id,
+                        username: user?.username || "",
+                    }),
+                });
+            }
 
             if (!response.ok) {
                 throw new Error("Failed to submit reply");
@@ -101,7 +139,9 @@ function PostPage() {
             setReply((prevReply) => ({
                 ...prevReply,
                 content: "",
+                mediaUrl: "",
             }));
+            setReplyMedia(null);
         } catch (error) {
             alert("Failed to submit reply. Please try again.");
         }
@@ -152,36 +192,45 @@ function PostPage() {
             )}
             {claimMessage && <p>{claimMessage}</p>} {/* Display claim success or error message */}
 
-            {/* Display replies */}
-            <div className="replies-section">
-                <h3>Replies</h3>
-                {replies && replies.length > 0 ? (
-                    replies.map((reply) => (
-                        <div key={reply.id} className="reply">
-                            <p>
-                                <strong>{reply.username}:</strong> {reply.content}
-                            </p>
-                        </div>
-                    ))
-                ) : (
-                    <p>No replies yet.</p>
-                )}
+            {/* Display Rpelies or Claim Button*/}
+            {post.claimer && (
+                <div className="replies-section">
+                <RepliesSection post={post} /> 
             </div>
+            ) }
+            
+
+
 
             {/* Reply form only if post is claimed */}
             {post.claimer === user?.username ? (
-                <form onSubmit={handleReplySubmit}>
-                    <textarea
-                        value={reply.content}
-                        onChange={(e) =>
-                            setReply((prevReply) => ({
-                                ...prevReply,
-                                content: e.target.value,
-                            }))
-                        }
-                        placeholder="Write your reply here..."
-                        required
-                    />
+                <form onSubmit={handleReplySubmit} className="create-post-form">
+                    <div className="form-group">
+                        <label htmlFor="reply-content">Reply:</label>
+                        <textarea
+                            id="reply-content"
+                            name="content"
+                            value={reply.content}
+                            onChange={(e) =>
+                                setReply((prevReply) => ({
+                                    ...prevReply,
+                                    content: e.target.value,
+                                }))
+                            }
+                            placeholder="Write your reply here..."
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="reply-media">Media (photo or video):</label>
+                        <input
+                            type="file"
+                            id="reply-media"
+                            name="media"
+                            accept="image/*,video/*"
+                            onChange={handleReplyMediaChange}
+                        />
+                    </div>
                     <button type="submit">Submit Reply</button>
                 </form>
             ) : post.claimed ? (
