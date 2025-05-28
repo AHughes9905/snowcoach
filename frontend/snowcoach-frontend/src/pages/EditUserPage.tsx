@@ -8,11 +8,13 @@ function EditUserPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { user } = useAuth();
-    const [eUser, setEUser] = useState(null);
+    const [eUser, setEUser] = useState({newUsername: "", newRole: "", newPassword: ""});
+    const [oUser, setOUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [password, setPassword] = useState("");
+    const [showEditUsername, setShowEditUsername] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -30,7 +32,7 @@ function EditUserPage() {
                 }
 
                 const data = await response.json();
-                setEUser(data);
+                setOUser(data);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -41,19 +43,42 @@ function EditUserPage() {
         fetchUser();
     }, [id]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setEUser((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+    const handleUsernameChange = async (e) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/user/update/username/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: eUser.newUsername,
+            });
+            if (!response.ok) {
+                throw new Error("Failed to update username");
+            }
+            alert("Username updated successfully!");
+        } catch (err) {
+            setError(err.message);
+        }
     };
 
-    const handleRoleChange = (e) => {
-        setEUser((prev) => ({
-            ...prev,
-            roles: [e.target.value],
-        }));
+    const handleRoleChange = async (e) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/user/update/role/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: eUser.newRole,
+            });
+            if (!response.ok) {
+                throw new Error("Failed to update username");
+            }
+            alert("Username updated successfully!");
+        } catch (err) {
+            setError(err.message);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -127,7 +152,7 @@ function EditUserPage() {
                     <input
                         type="text"
                         name="id"
-                        value={eUser.id || ""}
+                        value={oUser.id || ""}
                         disabled
                     />
                 </div>
@@ -136,10 +161,27 @@ function EditUserPage() {
                     <input
                         type="text"
                         name="username"
-                        value={eUser.username || ""}
-                        onChange={handleChange}
+                        value={oUser.username || ""}
+                        //onChange={handleUsernameChange}
                         disabled
                     />
+                    <button type="button" onClick={() => setShowEditUsername(!showEditUsername)}>
+                        {showEditUsername ? "Cancel" : "Edit Username"}
+                    </button>
+                    {showEditUsername && (
+                        <div>
+                            <input
+                                type="text"
+                                name="newUsername"
+                                value={eUser.newUsername || ""}
+                                onChange={e => setEUser({ ...eUser.newUsername , newUsername: e.target.value })}
+                                placeholder="Enter new username"
+                            />
+                            <button type="button" onClick={handleUsernameChange}>
+                                Save Username
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <div>
                     <label>Update Password:</label>
@@ -156,8 +198,8 @@ function EditUserPage() {
                     <input
                         type="text"
                         name="role"
-                        value={eUser.roleNames[0] || ""}
-                        onChange={handleChange}
+                        value={oUser.roleNames[0] || ""}
+                        onChange={handleRoleChange}
                         disabled
                     />
                 </div>

@@ -23,9 +23,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final AuthenticationManager authenticationManager;;
+    private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     public BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
 
@@ -80,11 +80,26 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public UserDTO updateUser(Long id, UserAuthDTO userAuthDTO) {
+    public UserDTO updateUsername(Long id, String username) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        user.setUsername(userAuthDTO.getUsername());
-        user.setPassword(encoder.encode(userAuthDTO.getPassword()));
+        user.setUsername(username);
+        User updatedUser = userRepository.save(user);
+        return userMapper.toDTO(updatedUser);
+    }
+
+    public UserDTO updatePassword(Long id, String password) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setPassword(encoder.encode(password));
+        User updatedUser = userRepository.save(user);
+        return userMapper.toDTO(updatedUser);
+    }
+
+    public UserDTO updateRole(Long id, String role) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setRoles(Collections.singleton(roleRepository.findByName(role)));
         User updatedUser = userRepository.save(user);
         return userMapper.toDTO(updatedUser);
     }

@@ -39,9 +39,24 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/update")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserAuthDTO userAuthDTO) {
-        UserDTO updatedUser = userService.updateUser(id, userAuthDTO);
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("update/username/{id}")
+    public ResponseEntity<UserDTO> updateUsername(@PathVariable Long id, @RequestBody String username) {
+        UserDTO updatedUser = userService.updateUsername(id, username);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("update/password/{id}")
+    public ResponseEntity<UserDTO> updatePassword(@PathVariable Long id, @RequestBody String password) {
+        UserDTO updatedUser = userService.updatePassword(id, password);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("update/role/{id}")
+    public ResponseEntity<UserDTO> updateRole(@PathVariable Long id, @RequestBody String role) {
+        UserDTO updatedUser = userService.updateRole(id, role);
         return ResponseEntity.ok(updatedUser);
     }
 
