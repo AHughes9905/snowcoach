@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f1e0dde2-5222-4bc5-80f3-2b19a8cf04c9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/EditUserPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/EditUserPage.tsx" afterDir="false" />
     </list>
@@ -148,7 +147,7 @@
       <workItem from="1747164945929" duration="1726000" />
       <workItem from="1747166709549" duration="3396000" />
       <workItem from="1747236586583" duration="29054000" />
-      <workItem from="1748192334970" duration="16642000" />
+      <workItem from="1748192334970" duration="20269000" />
     </task>
     <servers />
   </component>

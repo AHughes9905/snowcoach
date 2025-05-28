@@ -15,6 +15,8 @@ function EditUserPage() {
     const [success, setSuccess] = useState(null);
     const [password, setPassword] = useState("");
     const [showEditUsername, setShowEditUsername] = useState(false);
+    const [showEditPassword, setShowEditPassword] = useState(false);
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -43,7 +45,7 @@ function EditUserPage() {
         fetchUser();
     }, [id]);
 
-    const handleUsernameChange = async (e) => {
+    const handleUsernameChange = async () => {
         try {
             const response = await fetch(`http://localhost:8080/api/user/update/username/${id}`, {
                 method: "PUT",
@@ -57,6 +59,25 @@ function EditUserPage() {
                 throw new Error("Failed to update username");
             }
             alert("Username updated successfully!");
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    const handlePasswordChange = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/user/update/password/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: eUser.newPassword,
+            });
+            if (!response.ok) {
+                throw new Error("Failed to update password");
+            }
+            alert("Password updated successfully!");
         } catch (err) {
             setError(err.message);
         }
@@ -156,43 +177,86 @@ function EditUserPage() {
                         disabled
                     />
                 </div>
+                {/*Edit username section*/}
                 <div>
                     <label>Username:</label>
                     <input
                         type="text"
                         name="username"
                         value={oUser.username || ""}
-                        //onChange={handleUsernameChange}
                         disabled
                     />
-                    <button type="button" onClick={() => setShowEditUsername(!showEditUsername)}>
-                        {showEditUsername ? "Cancel" : "Edit Username"}
-                    </button>
-                    {showEditUsername && (
-                        <div>
-                            <input
-                                type="text"
-                                name="newUsername"
-                                value={eUser.newUsername || ""}
-                                onChange={e => setEUser({ ...eUser.newUsername , newUsername: e.target.value })}
-                                placeholder="Enter new username"
-                            />
-                            <button type="button" onClick={handleUsernameChange}>
-                                Save Username
-                            </button>
-                        </div>
-                    )}
+                    <div>
+                        {showEditUsername && (
+                            <div>
+                                <input
+                                    type="text"
+                                    name="newUsername"
+                                    value={eUser.newUsername || ""}
+                                    onChange={e => setEUser({ ...eUser, newUsername: e.target.value })}
+                                    placeholder="Enter new username"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        eUser.newUsername === ""
+                                            ? alert("Username must not be blank")
+                                            : handleUsernameChange()
+                                    }
+                                >
+                                    Save Username
+                                </button>
+                            </div>
+                        )}
+                        <button type="button" onClick={() => setShowEditUsername(!showEditUsername)}>
+                            {showEditUsername ? "Cancel" : "Edit Username"}
+                        </button>
+                    </div>
                 </div>
+                {/*Edit password section*/}
                 <div>
-                    <label>Update Password:</label>
+                    <label>Password:</label>
                     <input
-                        type="password"
+                        type="text"
                         name="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        placeholder="Enter new password"
+                        value={"********"}
+                        disabled
                     />
+                    <div>
+                        {showEditPassword && (
+                            <div>
+                                <input
+                                    type="text"
+                                    name="newPassword"
+                                    value={eUser.newPassword || ""}
+                                    onChange={e => setEUser({ ...eUser, newPassword: e.target.value })}
+                                    placeholder="Enter new Password"
+                                />
+                                <input
+                                    type="text"
+                                    name="newPassword"
+                                    value={confirmPassword || ""}
+                                    onChange={e => setConfirmPassword(e.target.value)}
+                                    placeholder="Confirm new Password"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        eUser.newPassword === "" || confirmPassword !== eUser.newPassword
+                                            ? alert("Password must not be blank and must match")
+                                            : handlePasswordChange()
+                                    }
+                                >
+                                    Save Password
+                                </button>
+                            </div>
+                        )}
+                        <button type="button" onClick={() => setShowEditPassword(!showEditPassword)}>
+                            {showEditPassword ? "Cancel" : "Edit Password"}
+                        </button>
+                    </div>
                 </div>
+                {/*Edit role section*/}
                 <div>
                     <label>Roles:</label>
                     <input
@@ -203,6 +267,7 @@ function EditUserPage() {
                         disabled
                     />
                 </div>
+
                 <button type="submit">Save Changes</button>
                 <button type="button" style={{ marginLeft: "1em", color: "red" }} onClick={handleDelete}>
                     Delete User

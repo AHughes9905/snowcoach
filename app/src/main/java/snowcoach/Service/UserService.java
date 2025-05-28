@@ -81,6 +81,9 @@ public class UserService {
     }
 
     public UserDTO updateUsername(Long id, String username) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new RuntimeException("Username already taken");
+        }
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setUsername(username);
