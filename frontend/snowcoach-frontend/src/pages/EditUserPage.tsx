@@ -17,6 +17,7 @@ function EditUserPage() {
     const [showEditUsername, setShowEditUsername] = useState(false);
     const [showEditPassword, setShowEditPassword] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [showEditRole, setShowEditRole] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -83,7 +84,7 @@ function EditUserPage() {
         }
     };
 
-    const handleRoleChange = async (e) => {
+    const handleRoleChange = async () => {
         try {
             const response = await fetch(`http://localhost:8080/api/user/update/role/${id}`, {
                 method: "PUT",
@@ -94,48 +95,15 @@ function EditUserPage() {
                 body: eUser.newRole,
             });
             if (!response.ok) {
-                throw new Error("Failed to update username");
+                throw new Error("Failed to update role");
             }
-            alert("Username updated successfully!");
+            alert("Role updated successfully!");
         } catch (err) {
             setError(err.message);
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError(null);
-        setSuccess(null);
 
-        if (!window.confirm("Are you sure you want to save these changes?")) {
-            return;
-        }
-
-        // Prepare payload
-        const payload = { ...eUser };
-        if (password) {
-            payload.password = password;
-        }
-
-        try {
-            const response = await fetch(`http://localhost:8080/api/user/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify(payload),
-            });
-            if (!response.ok) {
-                throw new Error("Failed to update user");
-            }
-            setSuccess("User updated successfully!");
-            // Optionally, navigate back or refresh
-            // navigate("/list-users");
-        } catch (err) {
-            setError(err.message);
-        }
-    };
 
     const handleDelete = async () => {
         if (!window.confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
@@ -160,6 +128,8 @@ function EditUserPage() {
         }
     };
 
+    
+
     if (loading) return <p>Loading user details...</p>;
     if (error) return <p>Error: {error}</p>;
     if (!eUser) return <p>No user data available.</p>;
@@ -167,7 +137,7 @@ function EditUserPage() {
     return (
         <div className="edit-user-page">
             <h1>Edit User</h1>
-            <form onSubmit={handleSubmit} className="edit-user-form">
+            <form className="edit-user-form">
                 <div>
                     <label>User ID:</label>
                     <input
@@ -266,9 +236,33 @@ function EditUserPage() {
                         onChange={handleRoleChange}
                         disabled
                     />
+                    {showEditRole && (
+                            <div>
+                                
+                                <select id="newRole" value={eUser.newRole} onChange={e => setEUser({ ...eUser, newRole: e.target.value })}>
+                                    <option value="">Select Role</option>
+                                    <option value="ROLE_USER">User</option>
+                                    <option value="ROLE_COACH1">Coach 1</option>
+                                    <option value="ROLE_COACH2">Coach 2</option>
+                                    <option value="ROLE_COACH3">Coach 3</option>
+                                </select>
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        eUser.newRole === ""
+                                            ? alert("Must select a role")
+                                            : handleRoleChange()
+                                    }
+                                >
+                                    Save Role
+                                </button>
+                            </div>
+                        )}
+                    <button type="button" onClick={() => setShowEditRole(!showEditRole)}>
+                            {showEditRole ? "Cancel" : "Change Role"}
+                    </button>
                 </div>
 
-                <button type="submit">Save Changes</button>
                 <button type="button" style={{ marginLeft: "1em", color: "red" }} onClick={handleDelete}>
                     Delete User
                 </button>

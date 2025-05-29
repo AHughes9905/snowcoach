@@ -17,6 +17,8 @@ import snowcoach.Util.JwtUtil;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -45,7 +47,8 @@ public class UserService {
         User user = new User();
         user.setUsername(userAuthDTO.getUsername());
         user.setPassword(encoder.encode(userAuthDTO.getPassword()));
-        user.setRoles(Collections.singleton(roleRepository.findByName("USER")));
+        // FIX: Use mutable collection
+        user.setRoles(new HashSet<>(Set.of(roleRepository.findByName("USER"))));
         userRepository.save(user);
         System.out.println("User created successfully");
         return true;
@@ -100,9 +103,11 @@ public class UserService {
     }
 
     public UserDTO updateRole(Long id, String role) {
+        System.out.println("role inside updateRole: " + role);
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        user.setRoles(Collections.singleton(roleRepository.findByName(role)));
+        // FIX: Use mutable collection
+        user.setRoles(new HashSet<>(Set.of(roleRepository.findByName(role))));
         User updatedUser = userRepository.save(user);
         return userMapper.toDTO(updatedUser);
     }
