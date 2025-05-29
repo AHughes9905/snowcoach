@@ -25,7 +25,6 @@ function PostPage() {
                 if (!response.ok) {
                     throw new Error("Failed to fetch post details");
                 }
-
                 const data = await response.json();
                 setPost(data);
             } catch (error) {
@@ -47,7 +46,6 @@ function PostPage() {
                     "Content-Type": "application/json",
                 },
             });
-
             if (!response.ok) {
                 // Try to read error message from backend
                 let errorMsg = "Failed to claim the post";
@@ -61,13 +59,34 @@ function PostPage() {
                 }
                 throw new Error(errorMsg);
             }
-
             const result = await response.json();
             setClaimMessage("Post claimed successfully!"); // Set success message
             console.log("Claim Result:", result);
         } catch (err) {
             setClaimMessage(err.message || "Failed to claim the post. Please try again."); // Set error message
             console.error("Error claiming post:", err);
+        }
+    };
+
+    const handleCompletePost = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/posts/${id}/complete`, {
+                method: "PUT",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!response.ok) {
+                throw new Error("Failed to mark post as completed");
+            }
+            const result = await response.json();
+            // Optionally update UI or show a message here
+            alert("Post marked as completed!");
+            // Optionally, refresh post data or redirect
+        } catch (error) {
+            console.error("Error completing post:", error);
+            alert("Error completing post. Please try again.");
         }
     };
 
@@ -116,11 +135,19 @@ function PostPage() {
 
             {/* Display Replies or Button if Claimer*/}
             {post.claimer && (
-                <div className="replies-section">
-                <RepliesSection post={post} /> 
-            </div>
-            ) }
-            
+                <div>
+                    <div className="replies-section">
+                        <RepliesSection post={post} /> 
+                    </div>
+                    <div>
+                        {!(post.visibility === "completed") && (
+                            <button onClick={handleCompletePost} className="complete-post-btn">
+                                Mark as Completed
+                            </button>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

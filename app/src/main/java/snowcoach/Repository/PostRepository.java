@@ -19,4 +19,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findByTimeCreatedBefore(LocalDateTime timeCreatedBefore);
     List<Post> findByTimeCreatedAfter(LocalDateTime timeCreatedAfter);
+
+    List<Post> findByClaimer_UsernameAndVisibilityNot(String claimerUsername, String visibility);
 }

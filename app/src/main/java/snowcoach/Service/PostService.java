@@ -106,20 +106,38 @@ public class PostService {
         return posts.stream().map(postMapper::toDTO).toList();
     }
 
-    public List<PostDTO> getCalimedPosts(String username) {
+    //Only gets claimed posts that are not completed
+    public List<PostDTO> getClaimedPosts(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        List<Post> posts = postRepository.findByClaimerId(user.getId());
+        List<Post> posts = postRepository.findByClaimer_UsernameAndVisibilityNot(user.getUsername(), "completed");
         return posts.stream().map(postMapper::toDTO).toList();
     }
 
     public PostDTO addReply(ReplyDTO replyDTO) {
         Post post = replyDTO.getPostId() != null ? postRepository.findById(replyDTO.getPostId())
                 .orElseThrow(() -> new RuntimeException("Post not found")) : null;
-        System.out.println("replyDTO mediaUrl inside addReply -----" + replyDTO.getMediaUrl());
+        if (post.getVisibility().equals("completed")) {
+            throw new RuntimeException("Post is already completed");
+        }
         Reply reply = ReplyMapper.toEntity(replyDTO, post);
         post.addReply(reply);
-        System.out.println("saved mediaurl --" + reply.getMediaUrl());
+
+        return postMapper.toDTO(postRepository.save(post));
+    }
+
+    public PostDTO completePost(Long postId, String username) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        if (post.getClaimer() == null) {
+            throw new RuntimeException("Post is not claimed");
+        }
+        if (!post.getClaimer().getId().equals(user.getId()) || !post.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("User authorized to complete post is not the claimer or the creator of the post");
+        }
+        post.setVisibility("completed");
         return postMapper.toDTO(postRepository.save(post));
     }
 }

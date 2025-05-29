@@ -44,10 +44,9 @@ function MyPostsPreviewPage() {
 
     return (
         <div className="my-posts-page">
-            <h1>My Posts</h1>
-            <div className="my-posts-list">
-                {posts.length > 0 ? (
-                    posts.map((post) => (
+            <h1>My Active Posts</h1>
+            {posts.filter(post => post.visibility === 'visible').length > 0 ? (
+                    posts.filter(post => post.visibility === 'visible').map((post) => (
                         <PostPreview
                             post={post}
                             key={post.id}
@@ -56,10 +55,25 @@ function MyPostsPreviewPage() {
                         />
                     ))
                 ) : (
-                    <p>You have not created any posts yet.</p>
+                    <p>No active posts found.</p>
+                )}
+            <div className="my-completed-posts">
+                <h2>Completed Posts</h2>
+                {posts.filter(post => post.visibility === 'completed').length > 0 ? (
+                    posts.filter(post => post.visibility === 'completedD').map((post) => (
+                        <PostPreview
+                            post={post}
+                            key={post.id}
+                            buttonLabel="View Post"
+                            buttonAction={handleViewPost}
+                        />
+                    ))
+                ) : (
+                    <p>No completed posts found.</p>
                 )}
             </div>
         </div>
+        
     );
 }
 

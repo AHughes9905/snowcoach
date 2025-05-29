@@ -36,7 +36,8 @@ function RepliesSection({ post }: RepliesSectionProps) {
     const [replyMedia, setReplyMedia] = useState<File | null>(null);
     const [replies, setReplies] = useState<ReplyProp[]>(post.replies || []);
     const id = post.id;
-    const fileInputRef = useRef<HTMLInputElement>(null); // Add this line
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
 
 
     const handleReplySubmit = async (e: React.FormEvent) => {
@@ -52,7 +53,7 @@ function RepliesSection({ post }: RepliesSectionProps) {
                     new Blob(
                         [JSON.stringify({
                             content: reply.content,
-                            postId: replies[0].postId,
+                            postId: id,
                             username: user?.username || "",
 
                         })],
@@ -75,7 +76,7 @@ function RepliesSection({ post }: RepliesSectionProps) {
                     },
                     body: JSON.stringify({
                         content: reply.content,
-                        postId: replies[0].postId,
+                        postId: id,
                         username: user?.username || "",
                     }),
                 });
@@ -115,7 +116,7 @@ function RepliesSection({ post }: RepliesSectionProps) {
                 <p>No replies yet.</p>
             )}
 
-            {true ? (
+            {!(post.visibility === 'completed') ? (
                 <form onSubmit={handleReplySubmit} className="create-post-form">
                     <div className="form-group">
                         <label htmlFor="reply-content">Reply:</label>
@@ -146,8 +147,8 @@ function RepliesSection({ post }: RepliesSectionProps) {
                     </div>
                     <button type="submit">Submit Reply</button>
                 </form>
-            ) : postClaimed ? (
-                <p>Only the claimer can reply to this post.</p>
+            ) : post.visibility === 'completed' ? (
+                <p>This post is completed therefore new replies are not allowed</p>
             ) : (
                 <p>This post must be claimed before you can reply.</p>
             )}

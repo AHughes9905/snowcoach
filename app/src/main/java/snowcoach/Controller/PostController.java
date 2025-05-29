@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import snowcoach.DTO.PostDTO;
 import snowcoach.DTO.ReplyDTO;
-import snowcoach.Model.Reply;
 import snowcoach.Service.MediaService;
 import snowcoach.Service.PostService;
 import snowcoach.Util.JwtUtil;
@@ -80,6 +79,18 @@ public class PostController {
             return ResponseEntity.status(403).body(e.getMessage());
         } catch (RuntimeException e) {
             // Handle other errors like post not found or already claimed
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
+    @PutMapping("{id}/complete")
+    public ResponseEntity<Object> completePost(@PathVariable Long id, @CookieValue(value = "jwt", required = false) String jwt) {
+        try {
+            PostDTO post = postService.completePost(id, jwtUtil.extractUsername(jwt));
+            return ResponseEntity.ok(post);
+        } catch (SecurityException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
+        } catch (RuntimeException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
@@ -110,19 +121,23 @@ public class PostController {
 
     @GetMapping("/claimed")
     public ResponseEntity<List<PostDTO>> getClaimedPosts(@CookieValue(value = "jwt", required = false) String jwt) {
-        List<PostDTO> posts = postService.getCalimedPosts(jwtUtil.extractUsername(jwt));
+        List<PostDTO> posts = postService.getClaimedPosts(jwtUtil.extractUsername(jwt));
         return ResponseEntity.ok(posts);
     }
 
-    // Need to check if post is claimed and/or only poster and claimer can reply
+    // Need to check if post is claimed and/or only poster and claimer can reply and if post is completed
     @PostMapping("/{id}/reply")
-    public ResponseEntity<ReplyDTO> addReply(
+    public ResponseEntity<Object> addReply(
             @RequestBody ReplyDTO reply,
             @CookieValue(value = "jwt", required = false) String jwt) {
-        reply.setUsername(jwtUtil.extractUsername(jwt));
-        PostDTO post = postService.addReply(reply);
-        ReplyDTO replyDTO = post.getReplies().getLast();
-        return ResponseEntity.ok(replyDTO);
+        try {
+            reply.setUsername(jwtUtil.extractUsername(jwt));
+            PostDTO post = postService.addReply(reply);
+            ReplyDTO replyDTO = post.getReplies().getLast();
+            return ResponseEntity.ok(replyDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     @PostMapping("/{id}/reply/media")
