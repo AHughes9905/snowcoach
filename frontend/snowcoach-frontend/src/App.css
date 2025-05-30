@@ -83,40 +83,139 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
+    padding: 14px 32px;
+    background: rgba(37, 63, 91, 0.92); /* deep blue-grey with transparency */
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #b6c0ce;
+    box-shadow: 0 2px 16px rgba(37, 63, 91, 0.10);
+    border-radius: 0 0 18px 18px;
+    margin-bottom: 2rem;
+}
+
+.navbar-logo {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #e0e7ef;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .navbar-links a {
-    margin-right: 15px;
-    color: white;
+    margin-right: 18px;
+    color: #e0e7ef;
     text-decoration: none;
+    font-weight: 600;
+    font-size: 1.08rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.18s, color 0.18s;
+}
+
+.navbar-links a:last-child {
+    margin-right: 0;
 }
 
 .navbar-links a:hover {
-    text-decoration: underline;
+    background: #2563eb;
+    color: #fff;
+    text-decoration: none;
 }
 
 .navbar-auth {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .navbar-auth span {
     font-weight: bold;
+    color: #e0e7ef;
 }
 
 .navbar-auth button {
-    padding: 5px 10px;
-    background-color: #ff4d4d;
+    padding: 6px 14px;
+    background-color: #2563eb;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background 0.18s;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
 }
 
 .navbar-auth button:hover {
-    background-color: #cc0000;
+    background-color: #1e40af;
+}
+
+/* Snowy white/grey background for the whole app */
+body {
+    background: linear-gradient(135deg, #e5e7eb 0%, #cbd5e1 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    color: #374151;
+    margin: 0;
+    padding: 0;
+}
+
+/* Headings with cool grey */
+h1, h2, h3, h4, h5, h6 {
+    color: #374151;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Card-like containers for sections */
+.my-posts-page,
+.my-completed-posts,
+.post-preview {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(60, 60, 60, 0.08);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Accent for completed posts section */
+.my-completed-posts {
+    background: #f1f5f9;
+    border: 1px solid #e5e7eb;
+}
+
+/* Muted grey for text */
+p, span, label {
+    color: #6b7280;
+}
+
+/* Blue buttons with snow feel */
+button,
+.button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+}
+
+button:hover,
+.button:hover {
+    background: #1e40af;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .my-posts-page,
+    .my-completed-posts,
+    .post-preview {
+        padding: 1rem;
+    }
 }

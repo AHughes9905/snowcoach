@@ -56,8 +56,8 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostDTO> getPost(@PathVariable Long id) {
-        PostDTO post = postService.getPostById(id);
+    public ResponseEntity<PostDTO> getPost(@PathVariable Long id, @CookieValue(value = "jwt", required = false) String jwt) {
+        PostDTO post = postService.getPostById(id, jwtUtil.extractUsername(jwt));
         return ResponseEntity.ok(post);
     }
 

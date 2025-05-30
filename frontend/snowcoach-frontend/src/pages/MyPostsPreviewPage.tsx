@@ -60,7 +60,7 @@ function MyPostsPreviewPage() {
             <div className="my-completed-posts">
                 <h2>Completed Posts</h2>
                 {posts.filter(post => post.visibility === 'completed').length > 0 ? (
-                    posts.filter(post => post.visibility === 'completedD').map((post) => (
+                    posts.filter(post => post.visibility === 'completed').map((post) => (
                         <PostPreview
                             post={post}
                             key={post.id}
