@@ -43,7 +43,6 @@ public class SecurityConfig {
                 .requestMatchers("api/posts/{id}/claim").hasAnyAuthority("CLAIM")
                 .requestMatchers("api/posts/{id}/complete").permitAll()
                 .requestMatchers("api/auth/login", "api/auth/register").permitAll()
-                .requestMatchers("/media/**").permitAll()
                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults()).
                 sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

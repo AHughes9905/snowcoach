@@ -63,10 +63,19 @@ public class PostService {
         return postMapper.toDTO(post);
     }
 
-    public void deletePost(Long id) {
+    public boolean deletePost(Long id, String username) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        boolean hasRequiredPrivilege = new UserPrincipal(user).getAuthorities()
+                .stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ADMIN"));
+        if (!hasRequiredPrivilege) {
+            throw new SecurityException("User is not authorized to delete this post");
+        }
         postRepository.delete(post);
+        return true;
     }
 
     public PostDTO claimPost(Long postId, String username) {
@@ -126,6 +135,11 @@ public class PostService {
     public PostDTO addReply(ReplyDTO replyDTO) {
         Post post = replyDTO.getPostId() != null ? postRepository.findById(replyDTO.getPostId())
                 .orElseThrow(() -> new RuntimeException("Post not found")) : null;
+        User user = userRepository.findByUsername(replyDTO.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        if (user != post.getClaimer() || user != post.getUser()) {
+            throw new SecurityException("User is not authorized to add reply");
+        }
         if (post.getVisibility().equals("completed")) {
             throw new RuntimeException("Post is already completed");
         }

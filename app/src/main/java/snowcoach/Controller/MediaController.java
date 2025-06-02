@@ -4,6 +4,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import snowcoach.Service.MediaService;
 
@@ -18,7 +19,7 @@ public class MediaController {
         this.mediaService = mediaService;
     }
 
-    // Endpoint to upload media
+    @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping("/upload")
     public ResponseEntity<String> uploadMedia(@RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
         try {
@@ -29,7 +30,8 @@ public class MediaController {
         }
     }
 
-    // Endpoint to retrieve media by its ID
+    //Obsolete, currently user media server
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/{mediaId}")
     public ResponseEntity<Resource> getMedia(@PathVariable String mediaId) {
         try {
