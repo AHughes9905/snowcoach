@@ -9,6 +9,7 @@ import snowcoach.Model.User;
 import snowcoach.Model.UserPrincipal;
 import snowcoach.Repository.UserRepository;
 
+// Needed for authentication with Spring Security
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 

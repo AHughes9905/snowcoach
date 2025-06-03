@@ -23,20 +23,16 @@ public class MediaService {
     }
 
     public String uploadMedia(org.springframework.web.multipart.MultipartFile file) throws Exception {
-        // Extract the original file extension
+        // Extract the file extension
         String originalFileName = file.getOriginalFilename();
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
         // Generate a unique filename using UUID
         String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
 
-        // Resolve the target location
         Path targetLocation = mediaStorageLocation.resolve(uniqueFileName);
 
-        // Copy the file to the target location
         Files.copy(file.getInputStream(), targetLocation);
-
-        // Return the URL or path to the uploaded file
         return "/media/" + uniqueFileName;
     }
 

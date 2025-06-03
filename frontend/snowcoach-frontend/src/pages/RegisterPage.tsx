@@ -30,7 +30,7 @@ function RegisterPage() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(regData),
-                credentials: "include",
+                
             });
 
             if (!response.ok) {

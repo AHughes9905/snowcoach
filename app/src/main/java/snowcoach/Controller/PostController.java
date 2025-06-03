@@ -31,7 +31,6 @@ public class PostController {
     @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping("/create")
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO dto, @CookieValue(value = "jwt", required = false) String jwt) {
-        System.out.println("here");
         dto.setUsername(jwtUtil.extractUsername(jwt));
         PostDTO createdPost = postService.createPost(dto);
         return ResponseEntity.ok(createdPost);
@@ -43,13 +42,8 @@ public class PostController {
             @RequestPart("post") PostDTO dto,
             @RequestPart("file") MultipartFile file) {
         try {
-            // Upload the media file and get its URL
             String mediaUrl = mediaService.uploadMedia(file);
-
-            // Attach the media URL to the post DTO
             dto.setMediaUrl(mediaUrl);
-
-            // Create the post with the attached media
             PostDTO createdPost = postService.createPost(dto);
             return ResponseEntity.ok(createdPost);
         } catch (Exception e) {
@@ -60,6 +54,7 @@ public class PostController {
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> getPost(@PathVariable Long id, @CookieValue(value = "jwt", required = false) String jwt) {
+        // Checks in service if user is authorized to view post
         PostDTO post = postService.getPostById(id, jwtUtil.extractUsername(jwt));
         return ResponseEntity.ok(post);
     }
@@ -68,6 +63,7 @@ public class PostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletePost(@PathVariable Long id, @CookieValue(value = "jwt", required = false) String jwt) {
         try {
+            // Service checks if user is authorized to delete post
             postService.deletePost(id, jwtUtil.extractUsername(jwt));
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
@@ -79,18 +75,17 @@ public class PostController {
     @PutMapping("/{id}/claim")
     public ResponseEntity<Object> claimPost(@PathVariable Long id, @CookieValue(value = "jwt", required = false) String jwt) {
         try {
-            // Call the service method
             PostDTO claimedPost = postService.claimPost(id, jwtUtil.extractUsername(jwt));
             return ResponseEntity.ok(claimedPost); // Return the claimed post if successful
         } catch (SecurityException e) {
-            // Handle insufficient authority
             return ResponseEntity.status(403).body(e.getMessage());
         } catch (RuntimeException e) {
-            // Handle other errors like post not found or already claimed
+            // If post is already claimed
             return ResponseEntity.status(400).body(null);
         }
     }
 
+    // For when post is marked as complete by user or claimer
     @PreAuthorize("hasAuthority('WRITE')")
     @PutMapping("{id}/complete")
     public ResponseEntity<Object> completePost(@PathVariable Long id, @CookieValue(value = "jwt", required = false) String jwt) {
@@ -104,6 +99,7 @@ public class PostController {
         }
     }
 
+    // Lists user's completed and uncompleted created posts
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/my-posts")
     public ResponseEntity<List<PostDTO>> getUserPosts(@CookieValue(value = "jwt", required = false) String jwt) {
@@ -118,6 +114,7 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    // Currently not utilized
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/visibility/{visibility}")
     public ResponseEntity<List<PostDTO>> getPostsByVisibility(@PathVariable String visibility) {
@@ -125,7 +122,8 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
-    @PreAuthorize("hasAuthority('TEACH1')")
+    // Lists all unclaimed posts
+    @PreAuthorize("hasAuthority('CLAIM')")
     @GetMapping("/unclaimed")
     public ResponseEntity<List<PostDTO>> getUnclaimedPosts() {
         List<PostDTO> posts = postService.getUnclaimedPosts();
@@ -133,13 +131,14 @@ public class PostController {
     }
 
     //Gets posts claimed by requester
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('CLAIM')")
     @GetMapping("/claimed")
     public ResponseEntity<List<PostDTO>> getClaimedPosts(@CookieValue(value = "jwt", required = false) String jwt) {
         List<PostDTO> posts = postService.getClaimedPosts(jwtUtil.extractUsername(jwt));
         return ResponseEntity.ok(posts);
     }
 
+    // Reply to post
     @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping("/{id}/reply")
     public ResponseEntity<Object> addReply(
@@ -155,6 +154,7 @@ public class PostController {
         }
     }
 
+    // Reply to post with media
     @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping("/{id}/reply/media")
     public ResponseEntity<ReplyDTO> createPostWithMedia(
@@ -162,14 +162,11 @@ public class PostController {
             @RequestPart("reply") ReplyDTO reply,
             @RequestPart("file") MultipartFile file) {
         try {
-            // Upload the media file and get its URL
             String mediaUrl = mediaService.uploadMedia(file);
 
-            // Attach the media URL to the post DTO
             reply.setMediaUrl(mediaUrl);
             reply.setUsername(jwtUtil.extractUsername(jwt));
-            System.out.println("medial url for reply " + reply.getMediaUrl());
-            // Create the post with the attached media
+
             PostDTO post = postService.addReply(reply);
             ReplyDTO replyDTO = post.getReplies().getLast();
             return ResponseEntity.ok(replyDTO);

@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    // Allows HTTP requests from localhost:5173 for CORS
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -23,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
         };
     }
 
-    // Add this method to serve files from the "uploads/" directory
+    // This allows server to act as media server and serve media directly from folder
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry

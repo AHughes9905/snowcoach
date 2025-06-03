@@ -34,8 +34,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserAuthDTO userAuthDTO) {
-        System.out.println("Registering user: " + userAuthDTO.getUsername());
-        System.out.println("Password: " + userAuthDTO.getPassword());
         try {
             if (userService.createUser(userAuthDTO)) {
                 return ResponseEntity.ok("User registered successfully.");
@@ -59,8 +57,6 @@ public class AuthController {
 
             return ResponseEntity.ok(userDTO);
         } catch (Exception e) {
-            System.out.println(userAuthDTO.getUsername());
-            System.out.println(e.getMessage());
             return ResponseEntity.status(401).body("Invalid credentials");
         }
     }
@@ -72,11 +68,4 @@ public class AuthController {
         return ResponseEntity.ok("Logged out successfully");
     }
 
-    //need to implement
-
-    //POST /api/auth/login
-
-    //POST /api/auth/register
-    
-    //POST /api/auth/logout
 }

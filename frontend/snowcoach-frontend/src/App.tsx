@@ -15,6 +15,7 @@ import AuthenticatePage from "./pages/AuthenticatePage";
 import ListUsersPage from "./pages/ListUsersPage";
 import AdminPage from "./pages/AdminPage";
 import EditUserPage from "./pages/EditUserPage";
+import LandingPage from "./pages/LandingPage";
 
 import './App.css';
 
@@ -24,7 +25,11 @@ function App() {
             <BrowserRouter>
                 <NavBar />
                 <Routes>
-                    <Route path="/" element={<HomePage />} />
+                    <Route path="/" element={
+                        <RequireAuth>
+                            <HomePage />
+                        </RequireAuth>
+                    } />
                     <Route path="/preview" element={<PreviewPage />} />
                     <Route path="/post/:id" element={<PostPage />} />
                     <Route path="/create" element={<CreatePost />} />
@@ -39,6 +44,7 @@ function App() {
                     <Route path="/list-users" element={<ListUsersPage />} />
                     <Route path="/edit-user/:id" element={<EditUserPage />} />
                     <Route path="/user/:id" element={<div>User Details Place Holder</div>} />
+                    <Route path="/landing" element={<LandingPage />} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
@@ -46,3 +52,15 @@ function App() {
 }
 
 export default App;
+
+// Helper component to protect routes
+import { useAuth } from "./context/AuthContext";
+import { Navigate } from "react-router-dom";
+
+function RequireAuth({ children }: { children: JSX.Element }) {
+    const { user } = useAuth();
+    if (!user) {
+        return <LandingPage />;
+    }
+    return children;
+}

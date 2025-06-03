@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "KJH823jkGhf!@#lkj9852Kfa23nKJLD8hfa==szegsvdevszdewosnvooinvinvdsins7ONVDSiewpn";
-    private static final Key SIGNING_KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    //private static final String SECRET_KEY;
+    private static final Key SIGNING_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     private static final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
     private static final String COOKIE_NAME = "jwt";
 
@@ -69,4 +69,3 @@ public class JwtUtil {
                 .getBody().getSubject();
     }
 }
-

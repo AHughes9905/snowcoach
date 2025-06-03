@@ -41,23 +41,20 @@ public class UserService {
 
     public boolean createUser(UserAuthDTO userAuthDTO) {
         if (userRepository.findByUsername(userAuthDTO.getUsername()).isPresent()) {
-            System.out.println("Username already taken");
             return false;
         }
         User user = new User();
         user.setUsername(userAuthDTO.getUsername());
         user.setPassword(encoder.encode(userAuthDTO.getPassword()));
-        // FIX: Use mutable collection
+
         user.setRoles(new HashSet<>(Set.of(roleRepository.findByName("USER"))));
         userRepository.save(user);
-        System.out.println("User created successfully");
         return true;
     }
 
     public UserDTO getUserDTOById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        System.out.println("got user info");
         return userMapper.toDTO(user);
     }
 
@@ -103,10 +100,9 @@ public class UserService {
     }
 
     public UserDTO updateRole(Long id, String role) {
-        System.out.println("role inside updateRole: " + role);
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        // FIX: Use mutable collection
+
         user.setRoles(new HashSet<>(Set.of(roleRepository.findByName(role))));
         User updatedUser = userRepository.save(user);
         return userMapper.toDTO(updatedUser);
@@ -116,8 +112,6 @@ public class UserService {
         User user = new User();
         user.setUsername(userAuthDTO.getUsername());
         user.setPassword(userAuthDTO.getPassword());
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
         );

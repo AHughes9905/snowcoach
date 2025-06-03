@@ -32,17 +32,14 @@ public class SecurityConfig {
 
     }
 
-
+    //Filter that all requests run through, uses JWT
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(request -> request
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .requestMatchers("api/user/**").hasAnyRole("ADMIN")
-                .requestMatchers("api/posts/create").hasAnyAuthority("WRITE")
-                .requestMatchers("api/posts/{id}/claim").hasAnyAuthority("CLAIM")
-                .requestMatchers("api/posts/{id}/complete").permitAll()
-                .requestMatchers("api/auth/login", "api/auth/register").permitAll()
+                .requestMatchers("api/auth/**").permitAll()
                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults()).
                 sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -51,6 +48,7 @@ public class SecurityConfig {
                 .build();
     }
 
+    // Authenticates users with BCrypt Encoder
     @Bean
     AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();

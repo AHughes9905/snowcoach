@@ -29,7 +29,6 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        System.out.println("Getting all users");
         List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
