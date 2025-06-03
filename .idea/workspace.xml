@@ -6,19 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f1e0dde2-5222-4bc5-80f3-2b19a8cf04c9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Config/WebConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Filter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Filter/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/MediaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/MediaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/MyUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/MyUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/snowcoach/Util/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/snowcoach/Util/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/LoginPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/RegisterPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/pages/RegisterPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/snowcoach-frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/snowcoach-frontend/src/assets/react.svg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +148,7 @@
       <workItem from="1747164945929" duration="1726000" />
       <workItem from="1747166709549" duration="3396000" />
       <workItem from="1747236586583" duration="29054000" />
-      <workItem from="1748192334970" duration="42880000" />
+      <workItem from="1748192334970" duration="45067000" />
     </task>
     <servers />
   </component>

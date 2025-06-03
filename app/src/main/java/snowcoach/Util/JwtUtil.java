@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
 
-    //private static final String SECRET_KEY;
+    // Automatically generate key at program initialization
     private static final Key SIGNING_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     private static final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
     private static final String COOKIE_NAME = "jwt";
