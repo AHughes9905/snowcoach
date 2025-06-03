@@ -39,6 +39,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         String jwt = jwtUtil.getTokenFromCookies(request.getCookies());
+        String path = request.getRequestURI();
+
+        // Allows login and registration to ignore bad or nonexistent cookies
+        if (path.startsWith("/api/auth/")) {
+            chain.doFilter(request, response);
+            return;
+        }
+        
+        // JWT authentication section of filter
         if (jwt != null) {
             try {
                 String username = jwtUtil.extractUsername(jwt);
