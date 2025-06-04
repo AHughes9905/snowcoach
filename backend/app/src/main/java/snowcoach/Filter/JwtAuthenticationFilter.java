@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
             return;
         }
-        
+
         // JWT authentication section of filter
         if (jwt != null) {
             try {
