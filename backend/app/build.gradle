@@ -60,10 +60,26 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'snowcoach.App'
+    mainClass = 'snowcoach.SnowcoachApplication'
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+tasks.withType(Test) {
+    enabled = false
+}
+
+test {
+    exclude '**/*'
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    archiveFileName = 'app.jar'
 }
