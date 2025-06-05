@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import type { User } from "../types/User";
 
-
+interface EditUserState {
+    newUsername: string;
+    newRole: string;
+    newPassword: string;
+}
 
 function EditUserPage() {
-    const { id } = useParams();
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const { user } = useAuth();
-    const [eUser, setEUser] = useState({newUsername: "", newRole: "", newPassword: ""});
-    const [oUser, setOUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
-    const [password, setPassword] = useState("");
-    const [showEditUsername, setShowEditUsername] = useState(false);
-    const [showEditPassword, setShowEditPassword] = useState(false);
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [showEditRole, setShowEditRole] = useState(false);
+    const [eUser, setEUser] = useState<EditUserState>({ newUsername: "", newRole: "", newPassword: "" });
+    const [oUser, setOUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
+    const [showEditUsername, setShowEditUsername] = useState<boolean>(false);
+    const [showEditPassword, setShowEditPassword] = useState<boolean>(false);
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
+    const [showEditRole, setShowEditRole] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -34,10 +36,14 @@ function EditUserPage() {
                     throw new Error("Failed to fetch user details");
                 }
 
-                const data = await response.json();
+                const data: User = await response.json();
                 setOUser(data);
             } catch (error) {
-                setError(error.message);
+                if (error instanceof Error) {
+                    setError(error.message);
+                } else {
+                    setError("Unknown error");
+                }
             } finally {
                 setLoading(false);
             }
@@ -47,6 +53,7 @@ function EditUserPage() {
     }, [id]);
 
     const handleUsernameChange = async () => {
+        setError(null);
         try {
             const response = await fetch(`http://localhost:8080/api/user/update/username/${id}`, {
                 method: "PUT",
@@ -54,18 +61,20 @@ function EditUserPage() {
                     "Content-Type": "application/json",
                 },
                 credentials: "include",
-                body: eUser.newUsername,
+                body: JSON.stringify({ username: eUser.newUsername }),
             });
             if (!response.ok) {
                 throw new Error("Failed to update username");
             }
-            alert("Username updated successfully!");
+            setSuccess("Username updated successfully!");
         } catch (err) {
-            setError(err.message);
+            if (err instanceof Error) setError(err.message);
+            else setError("Unknown error");
         }
     };
 
     const handlePasswordChange = async () => {
+        setError(null);
         try {
             const response = await fetch(`http://localhost:8080/api/user/update/password/${id}`, {
                 method: "PUT",
@@ -73,18 +82,20 @@ function EditUserPage() {
                     "Content-Type": "application/json",
                 },
                 credentials: "include",
-                body: eUser.newPassword,
+                body: JSON.stringify({ password: eUser.newPassword }),
             });
             if (!response.ok) {
                 throw new Error("Failed to update password");
             }
-            alert("Password updated successfully!");
+            setSuccess("Password updated successfully!");
         } catch (err) {
-            setError(err.message);
+            if (err instanceof Error) setError(err.message);
+            else setError("Unknown error");
         }
     };
 
     const handleRoleChange = async () => {
+        setError(null);
         try {
             const response = await fetch(`http://localhost:8080/api/user/update/role/${id}`, {
                 method: "PUT",
@@ -92,18 +103,17 @@ function EditUserPage() {
                     "Content-Type": "application/json",
                 },
                 credentials: "include",
-                body: eUser.newRole,
+                body: JSON.stringify({ role: eUser.newRole }),
             });
             if (!response.ok) {
                 throw new Error("Failed to update role");
             }
-            alert("Role updated successfully!");
+            setSuccess("Role updated successfully!");
         } catch (err) {
-            setError(err.message);
+            if (err instanceof Error) setError(err.message);
+            else setError("Unknown error");
         }
     };
-
-
 
     const handleDelete = async () => {
         if (!window.confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
@@ -124,15 +134,14 @@ function EditUserPage() {
                 navigate("/list-users");
             }, 1000);
         } catch (err) {
-            setError(err.message);
+            if (err instanceof Error) setError(err.message);
+            else setError("Unknown error");
         }
     };
 
-    
-
     if (loading) return <p>Loading user details...</p>;
     if (error) return <p>Error: {error}</p>;
-    if (!eUser) return <p>No user data available.</p>;
+    if (!oUser) return <p>No user data available.</p>;
 
     return (
         <div className="edit-user-page">
@@ -204,7 +213,7 @@ function EditUserPage() {
                                 />
                                 <input
                                     type="text"
-                                    name="newPassword"
+                                    name="confirmPassword"
                                     value={confirmPassword || ""}
                                     onChange={e => setConfirmPassword(e.target.value)}
                                     placeholder="Confirm new Password"
@@ -232,34 +241,32 @@ function EditUserPage() {
                     <input
                         type="text"
                         name="role"
-                        value={oUser.roleNames[0] || ""}
-                        onChange={handleRoleChange}
+                        value={oUser.roles[0] || ""}
                         disabled
                     />
                     {showEditRole && (
-                            <div>
-                                
-                                <select id="newRole" value={eUser.newRole} onChange={e => setEUser({ ...eUser, newRole: e.target.value })}>
-                                    <option value="">Select Role</option>
-                                    <option value="ROLE_USER">User</option>
-                                    <option value="ROLE_COACH1">Coach 1</option>
-                                    <option value="ROLE_COACH2">Coach 2</option>
-                                    <option value="ROLE_COACH3">Coach 3</option>
-                                </select>
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        eUser.newRole === ""
-                                            ? alert("Must select a role")
-                                            : handleRoleChange()
-                                    }
-                                >
-                                    Save Role
-                                </button>
-                            </div>
-                        )}
+                        <div>
+                            <select id="newRole" value={eUser.newRole} onChange={e => setEUser({ ...eUser, newRole: e.target.value })}>
+                                <option value="">Select Role</option>
+                                <option value="ROLE_USER">User</option>
+                                <option value="ROLE_COACH1">Coach 1</option>
+                                <option value="ROLE_COACH2">Coach 2</option>
+                                <option value="ROLE_COACH3">Coach 3</option>
+                            </select>
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    eUser.newRole === ""
+                                        ? alert("Must select a role")
+                                        : handleRoleChange()
+                                }
+                            >
+                                Save Role
+                            </button>
+                        </div>
+                    )}
                     <button type="button" onClick={() => setShowEditRole(!showEditRole)}>
-                            {showEditRole ? "Cancel" : "Change Role"}
+                        {showEditRole ? "Cancel" : "Change Role"}
                     </button>
                 </div>
 

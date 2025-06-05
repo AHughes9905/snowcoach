@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useAuth } from "../context/AuthContext";
 
 function RegisterPage() {
-    const { login, user } = useAuth();
+    
     const [formData, setFormData] = useState({ username: "", password: "", password2: "" });
-    const [regData, setRegData] = useState({ username: "", password: ""});
+    const [regData] = useState({ username: "", password: ""});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -37,7 +36,7 @@ function RegisterPage() {
                 throw new Error("Registration failed.");
             }
 
-            const result = await response;
+            await response;
             alert("Registration successful!");
             window.location.href = "/"; // Redirect to home page after successful registration
         } catch (error) {

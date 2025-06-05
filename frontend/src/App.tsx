@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PreviewPage from './pages/PreviewPage';
@@ -6,7 +5,6 @@ import PostPage from './pages/PostPage';
 import CreatePost from "./pages/CreatePost";
 import LoginPage from "./pages/LoginPage";
 import ClaimedPostsPage from "./pages/ClaimedPreviewPage";
-import ReplyPage from "./pages/ReplyPage";
 import NavBar from "./components/NavBar";
 import HomePage from './pages/HomePage';
 import MyPostsPreviewPage from "./pages/MyPostsPreviewPage";
@@ -18,6 +16,8 @@ import EditUserPage from "./pages/EditUserPage";
 import LandingPage from "./pages/LandingPage";
 
 import './App.css';
+import React from "react";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
     return (
@@ -35,7 +35,6 @@ function App() {
                     <Route path="/create" element={<CreatePost />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/claimed-posts" element={<ClaimedPostsPage />} />
-                    <Route path="/post/:id/reply" element={<ReplyPage />} />
                     <Route path="/my-posts" element={<MyPostsPreviewPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/authenticate" element={<AuthenticatePage />} />
@@ -53,14 +52,11 @@ function App() {
 
 export default App;
 
-// Helper component to protect routes
-import { useAuth } from "./context/AuthContext";
-import { Navigate } from "react-router-dom";
-
-function RequireAuth({ children }: { children: JSX.Element }) {
+// Component to protect routes that require authentication
+function RequireAuth({ children }: { children: React.ReactNode }) {
     const { user } = useAuth();
     if (!user) {
         return <LandingPage />;
     }
-    return children;
+    return <>{children}</>;
 }

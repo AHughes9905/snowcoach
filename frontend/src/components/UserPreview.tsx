@@ -1,12 +1,4 @@
-import React from "react";
-import { useNavigate } from 'react-router-dom';
-
-interface User {
-    id: number;
-    username: string;
-    roles: string[];
-    
-}
+import type { User } from "../types/User.ts";
 
 interface UserPreviewProps {
     user: User;
@@ -18,7 +10,7 @@ function UserPreview({ user, buttonLabel, buttonAction }: UserPreviewProps) {
     return (
         <div className="user-preview">
             <h2>{user.username}</h2>
-            <p>Roles: {user.roleNames}</p>
+            <p>Roles: {user.roles}</p>
             <p>ID: {user.id}</p>
             <button onClick={() => buttonAction(user.id)}>{buttonLabel}</button>
         </div>

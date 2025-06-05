@@ -1,7 +1,7 @@
-import React, { useState, FormEvent, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useRef } from "react";
 import Reply from "./Reply";
 import { useAuth } from "../context/AuthContext";
+import type { Post } from "../types/Post";
 
 interface ReplyProp {
     id: number;
@@ -11,19 +11,6 @@ interface ReplyProp {
     mediaUrl?: string;
 }
 
-interface Post {
-    id : number;
-    title : number;
-    level : number;
-    topic : string;
-    body : string;
-    mediaUrl : string;
-    username: string;
-    visibility: string;
-    claimerName?: string;
-    timeCreated: string;
-    replies: ReplyProp[];
-}
 
 interface RepliesSectionProps {
     post: Post;

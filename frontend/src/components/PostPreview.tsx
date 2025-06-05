@@ -1,12 +1,5 @@
-import React from "react";
-import { useNavigate } from 'react-router-dom';
+import type { Post } from "../types/Post";
 
-interface Post {
-    id: number;
-    title: string;
-    level: string;
-    topic: string;
-}
 
 interface PostPreviewProps {
     post: Post;

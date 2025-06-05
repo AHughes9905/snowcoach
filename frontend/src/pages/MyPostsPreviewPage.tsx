@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import PostPreview from "../components/PostPreview";
+import type { Post } from "../types/Post";
 
 function MyPostsPreviewPage() {
-    const { user } = useAuth();
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,10 +22,14 @@ function MyPostsPreviewPage() {
                 if (!response.ok) {
                     throw new Error("Failed to fetch your posts");
                 }
-                const result = await response.json();
+                const result: Post[] = await response.json();
                 setPosts(result);
             } catch (err) {
-                setError(err.message);
+                if (err instanceof Error) {
+                    setError(err.message);
+                } else {
+                    setError("Unknown error");
+                }
             } finally {
                 setLoading(false);
             }
@@ -35,7 +38,7 @@ function MyPostsPreviewPage() {
         fetchMyPosts();
     }, []);
 
-    const handleViewPost = (postId) => {
+    const handleViewPost = (postId: number): void => {
         navigate(`/post/${postId}`);
     };
 
@@ -46,17 +49,17 @@ function MyPostsPreviewPage() {
         <div className="my-posts-page">
             <h1>My Active Posts</h1>
             {posts.filter(post => post.visibility === 'visible').length > 0 ? (
-                    posts.filter(post => post.visibility === 'visible').map((post) => (
-                        <PostPreview
-                            post={post}
-                            key={post.id}
-                            buttonLabel="View Post"
-                            buttonAction={handleViewPost}
-                        />
-                    ))
-                ) : (
-                    <p>No active posts found.</p>
-                )}
+                posts.filter(post => post.visibility === 'visible').map((post) => (
+                    <PostPreview
+                        post={post}
+                        key={post.id}
+                        buttonLabel="View Post"
+                        buttonAction={handleViewPost}
+                    />
+                ))
+            ) : (
+                <p>No active posts found.</p>
+            )}
             <div className="my-completed-posts">
                 <h2>Completed Posts</h2>
                 {posts.filter(post => post.visibility === 'completed').length > 0 ? (
@@ -73,7 +76,6 @@ function MyPostsPreviewPage() {
                 )}
             </div>
         </div>
-        
     );
 }
 

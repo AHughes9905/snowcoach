@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 function LoginPage() {
-    const { login, user } = useAuth();
+    const { login} = useAuth();
     const [formData, setFormData] = useState({ username: "", password: "" });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

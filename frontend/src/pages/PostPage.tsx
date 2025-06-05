@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import RepliesSection from "../components/RepliesSection";
+import type { Post } from "../types/Post";
+
 
 function PostPage() {
-    const { id } = useParams();
-    const { user } = useAuth();
-    const [post, setPost] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [claimMessage, setClaimMessage] = useState(""); // State to handle claim success or error messages
+    const { id } = useParams<{ id: string }>();
+    const [post, setPost] = useState<Post | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [claimMessage, setClaimMessage] = useState<string>("");
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -25,10 +25,14 @@ function PostPage() {
                 if (!response.ok) {
                     throw new Error("Failed to fetch post details");
                 }
-                const data = await response.json();
+                const data: Post = await response.json();
                 setPost(data);
             } catch (error) {
-                setError(error.message);
+                if (error instanceof Error) {
+                    setError(error.message);
+                } else {
+                    setError("Unknown error");
+                }
             } finally {
                 setLoading(false);
             }
@@ -47,7 +51,6 @@ function PostPage() {
                 },
             });
             if (!response.ok) {
-                // Try to read error message from backend
                 let errorMsg = "Failed to claim the post";
                 try {
                     const errorData = await response.json();
@@ -60,11 +63,15 @@ function PostPage() {
                 throw new Error(errorMsg);
             }
             const result = await response.json();
-            setClaimMessage("Post claimed successfully!"); // Set success message
+            setClaimMessage("Post claimed successfully!");
             console.log("Claim Result:", result);
         } catch (err) {
-            setClaimMessage(err.message || "Failed to claim the post. Please try again."); // Set error message
-            console.error("Error claiming post:", err);
+            if (err instanceof Error) {
+                setClaimMessage(err.message);
+                console.error("Error claiming post:", err);
+            } else {
+                setClaimMessage("Failed to claim the post. Please try again.");
+            }
         }
     };
 
@@ -80,10 +87,8 @@ function PostPage() {
             if (!response.ok) {
                 throw new Error("Failed to mark post as completed");
             }
-            const result = await response.json();
-            // Optionally update UI or show a message here
+            await response.json();
             alert("Post marked as completed!");
-            // Optionally, refresh post data or redirect
         } catch (error) {
             console.error("Error completing post:", error);
             alert("Error completing post. Please try again.");
@@ -131,13 +136,13 @@ function PostPage() {
                     Claim Post
                 </button>
             )}
-            {claimMessage && <p>{claimMessage}</p>} {/* Display claim success or error message */}
+            {claimMessage && <p>{claimMessage}</p>}
 
             {/* Display Replies or Button if Claimer*/}
             {post.claimer && (
                 <div>
                     <div className="replies-section">
-                        <RepliesSection post={post} /> 
+                        <RepliesSection post={post} />
                     </div>
                     <div>
                         {!(post.visibility === "completed") && (

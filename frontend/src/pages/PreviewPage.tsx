@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PostPreview from "../components/PostPreview";
+import type { Post } from "../types/Post";
+
 
 function PreviewPage() {
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [selectedLevels, setSelectedLevels] = useState<number[]>([]); // Track selected levels
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [selectedLevels, setSelectedLevels] = useState<number[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,11 +26,11 @@ function PreviewPage() {
                     throw new Error("Failed to fetch unclaimed posts");
                 }
 
-                const result = await response.json();
+                const result: Post[] = await response.json();
                 setPosts(result);
-            } catch (error) {
+            } catch (error: any) {
                 console.error("Error retrieving unclaimed posts:", error);
-                setError(error.message);
+                setError(error.message || "Unknown error");
             } finally {
                 setLoading(false);
             }
