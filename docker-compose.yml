@@ -10,6 +10,7 @@ services:
     build: ./backend
     ports:
       - "8080:8080"
+    #Currently unneeded environment variables which are currently handled in Spring Boot
     # environment:
     #   SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/snowcoachdb
     #   SPRING_DATASOURCE_USERNAME: aaron
@@ -17,6 +18,16 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
 
   db:
     image: postgres:17
