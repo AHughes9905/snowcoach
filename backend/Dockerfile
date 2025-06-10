@@ -4,6 +4,7 @@ WORKDIR /app
 
 # Copy and build the app
 COPY . .
+RUN sed -i 's/\r$//' ./gradlew
 RUN chmod +x ./gradlew
 RUN ./gradlew :app:build -x test
 
