@@ -7,7 +7,7 @@ function AuthenticatePage() {
     useEffect(() => {
         // Check if the user is already authenticated
         const checkAuth = async () => {
-            const response = await fetch("http://localhost:8080/api/auth/check", {
+            const response = await fetch("/api/auth/check", {
                 method: "GET",
                 credentials: "include",
                 headers: {

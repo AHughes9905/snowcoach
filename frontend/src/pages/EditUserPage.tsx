@@ -24,7 +24,7 @@ function EditUserPage() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/user/${id}`, {
+                const response = await fetch(`/api/user/${id}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ function EditUserPage() {
     const handleUsernameChange = async () => {
         setError(null);
         try {
-            const response = await fetch(`http://localhost:8080/api/user/update/username/${id}`, {
+            const response = await fetch(`/api/user/update/username/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -76,7 +76,7 @@ function EditUserPage() {
     const handlePasswordChange = async () => {
         setError(null);
         try {
-            const response = await fetch(`http://localhost:8080/api/user/update/password/${id}`, {
+            const response = await fetch(`/api/user/update/password/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -97,7 +97,7 @@ function EditUserPage() {
     const handleRoleChange = async () => {
         setError(null);
         try {
-            const response = await fetch(`http://localhost:8080/api/user/update/role/${id}`, {
+            const response = await fetch(`/api/user/update/role/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -122,7 +122,7 @@ function EditUserPage() {
         setError(null);
         setSuccess(null);
         try {
-            const response = await fetch(`http://localhost:8080/api/user/${id}`, {
+            const response = await fetch(`/api/user/${id}`, {
                 method: "DELETE",
                 credentials: "include",
             });

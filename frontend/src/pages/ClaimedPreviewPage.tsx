@@ -12,7 +12,7 @@ function ClaimedPostsPage() {
     useEffect(() => {
         const fetchClaimedPosts = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/posts/claimed", {
+                const response = await fetch("/api/posts/claimed", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

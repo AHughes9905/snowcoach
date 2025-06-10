@@ -52,14 +52,14 @@ function CreatePost() {
                 );
                 data.append("file", media);
 
-                response = await fetch("http://localhost:8080/api/posts/create/media", {
+                response = await fetch("/api/posts/create/media", {
                     method: "POST",
                     credentials: "include",
                     body: data,
                 });
             } else {
                 // Use JSON for regular post
-                response = await fetch("http://localhost:8080/api/posts/create", {
+                response = await fetch("/api/posts/create", {
                     method: "POST",
                     credentials: "include",
                     headers: {
