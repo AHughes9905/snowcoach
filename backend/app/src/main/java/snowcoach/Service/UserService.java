@@ -40,6 +40,8 @@ public class UserService {
     }
 
     public boolean createUser(UserAuthDTO userAuthDTO) {
+        System.out.println("user " + userAuthDTO.getUsername());
+        System.out.println("pass " +userAuthDTO.getPassword());
         if (userRepository.findByUsername(userAuthDTO.getUsername()).isPresent()) {
             return false;
         }

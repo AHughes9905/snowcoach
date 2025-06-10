@@ -36,11 +36,15 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody UserAuthDTO userAuthDTO) {
         try {
             if (userService.createUser(userAuthDTO)) {
+                System.out.println("worked");
                 return ResponseEntity.ok("User registered successfully.");
             } else {
+                System.out.println("name taken");
                 return ResponseEntity.badRequest().body("Username already taken.");
             }
         } catch (RuntimeException e) {
+            System.out.println("ERROR present");
+            System.out.println("error " + e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

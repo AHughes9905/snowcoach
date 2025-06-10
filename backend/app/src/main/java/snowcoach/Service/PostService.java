@@ -53,9 +53,6 @@ public class PostService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
-        System.out.println("user id" + user.getId());
-        System.out.println("post usrer" + post.getUser().getId());
-        System.out.println("post claimer" + post.getClaimer().getId());
         if (post.getClaimer() != null
                 && !(post.getClaimer().getId().equals(user.getId()) || post.getUser().getId().equals(user.getId()))) {
             throw new SecurityException("User is not authorized to view this post");
