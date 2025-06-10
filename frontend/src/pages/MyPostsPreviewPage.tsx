@@ -12,7 +12,7 @@ function MyPostsPreviewPage() {
     useEffect(() => {
         const fetchMyPosts = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/posts/my-posts", {
+                const response = await fetch("/api/posts/my-posts", {
                     method: "GET",
                     credentials: "include",
                     headers: {

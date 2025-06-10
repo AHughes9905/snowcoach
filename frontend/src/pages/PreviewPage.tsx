@@ -14,7 +14,7 @@ function PreviewPage() {
     useEffect(() => {
         const fetchUnclaimedPosts = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/posts/unclaimed", {
+                const response = await fetch("/api/posts/unclaimed", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

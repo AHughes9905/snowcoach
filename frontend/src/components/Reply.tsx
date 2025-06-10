@@ -18,12 +18,12 @@ function Reply( { reply }: { reply: ReplyProp }) {
                 <div className="reply-media">
                     {/\.(mp4|webm|ogg)$/i.test(reply.mediaUrl) ? (
                         <video controls width="320">
-                            <source src={`http://localhost:8080${reply.mediaUrl}`} />
+                            <source src={`${reply.mediaUrl}`} />
                             Your browser does not support the video tag.
                         </video>
                     ) : (
                         <img
-                            src={`http://localhost:8080${reply.mediaUrl}`}
+                            src={`${reply.mediaUrl}`}
                             alt="Reply media"
                             style={{ maxWidth: "320px", maxHeight: "240px" }}
                         />

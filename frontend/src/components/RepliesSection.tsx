@@ -49,13 +49,13 @@ function RepliesSection({ post }: RepliesSectionProps) {
                 );
                 data.append("file", replyMedia);
 
-                response = await fetch(`http://localhost:8080/api/posts/${id}/reply/media`, {
+                response = await fetch(`/api/posts/${id}/reply/media`, {
                     method: "POST",
                     credentials: "include",
                     body: data,
                 });
             } else {
-                response = await fetch(`http://localhost:8080/api/posts/${id}/reply`, {
+                response = await fetch(`/api/posts/${id}/reply`, {
                     method: "POST",
                     credentials: "include",
                     headers: {

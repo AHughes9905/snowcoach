@@ -14,7 +14,7 @@ function ListUsersPage() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/user/all", {
+                const response = await fetch("/api/user/all", {
                     method: "GET",
                     credentials: "include",
                     headers: {

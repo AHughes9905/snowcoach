@@ -14,7 +14,7 @@ function PostPage() {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/posts/${id}`, {
+                const response = await fetch(`/api/posts/${id}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ function PostPage() {
 
     const handleClaimPost = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/posts/${id}/claim`, {
+            const response = await fetch(`/api/posts/${id}/claim`, {
                 method: "PUT",
                 credentials: "include",
                 headers: {
@@ -77,7 +77,7 @@ function PostPage() {
 
     const handleCompletePost = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/posts/${id}/complete`, {
+            const response = await fetch(`/api/posts/${id}/complete`, {
                 method: "PUT",
                 credentials: "include",
                 headers: {
@@ -117,12 +117,12 @@ function PostPage() {
                 <div className="post-media">
                     {/\.(mp4|webm|ogg)$/i.test(post.mediaUrl) ? (
                         <video controls width="480">
-                            <source src={`http://localhost:8080${post.mediaUrl}`} />
+                            <source src={`${post.mediaUrl}`} />
                             Your browser does not support the video tag.
                         </video>
                     ) : (
                         <img
-                            src={`http://localhost:8080${post.mediaUrl}`}
+                            src={`${post.mediaUrl}`}
                             alt="Post media"
                             style={{ maxWidth: "480px", maxHeight: "360px" }}
                         />
