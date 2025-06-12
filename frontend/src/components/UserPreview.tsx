@@ -10,7 +10,7 @@ function UserPreview({ user, buttonLabel, buttonAction }: UserPreviewProps) {
     return (
         <div className="user-preview">
             <h2>{user.username}</h2>
-            <p>Roles: {user.roles}</p>
+            <p>Roles: {user.roleNames}</p>
             <p>ID: {user.id}</p>
             <button onClick={() => buttonAction(user.id)}>{buttonLabel}</button>
         </div>

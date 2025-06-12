@@ -142,7 +142,7 @@ function EditUserPage() {
     if (loading) return <p>Loading user details...</p>;
     if (error) return <p>Error: {error}</p>;
     if (!oUser) return <p>No user data available.</p>;
-
+    
     return (
         <div className="edit-user-page">
             <h1>Edit User</h1>
@@ -241,7 +241,7 @@ function EditUserPage() {
                     <input
                         type="text"
                         name="role"
-                        value={oUser.roles[0] || ""}
+                        value={Array.isArray(oUser.roleNames) && oUser.roleNames.length > 0 ? oUser.roleNames[0] : ""}
                         disabled
                     />
                     {showEditRole && (
