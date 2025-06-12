@@ -40,8 +40,7 @@ public class UserService {
     }
 
     public boolean createUser(UserAuthDTO userAuthDTO) {
-        System.out.println("user " + userAuthDTO.getUsername());
-        System.out.println("pass " +userAuthDTO.getPassword());
+    
         if (userRepository.findByUsername(userAuthDTO.getUsername()).isPresent()) {
             return false;
         }
@@ -49,7 +48,11 @@ public class UserService {
         user.setUsername(userAuthDTO.getUsername());
         user.setPassword(encoder.encode(userAuthDTO.getPassword()));
 
-        user.setRoles(new HashSet<>(Set.of(roleRepository.findByName("USER"))));
+        var userRole = roleRepository.findByName("ROLE_USER");
+        if (userRole == null) {
+            throw new RuntimeException("Role 'USER' not found in database. Please initialize roles.");
+        }
+        user.setRoles(new HashSet<>(Set.of(userRole)));
         userRepository.save(user);
         return true;
     }
