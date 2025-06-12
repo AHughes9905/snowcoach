@@ -14,7 +14,7 @@ function PostPage() {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await fetch(`/api/posts/${id}`, {
+                const response = await fetch("/api/posts/${id}", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ function PostPage() {
 
     const handleClaimPost = async () => {
         try {
-            const response = await fetch(`/api/posts/${id}/claim`, {
+            const response = await fetch("/api/posts/${id}/claim", {
                 method: "PUT",
                 credentials: "include",
                 headers: {
