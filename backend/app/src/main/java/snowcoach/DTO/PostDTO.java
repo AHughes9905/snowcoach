@@ -15,10 +15,11 @@ public class PostDTO {
     private String claimerName;
     private LocalDateTime timeCreated; // New field
     private List<ReplyDTO> replies;
+    private String sport;
 
     public PostDTO() {}
 
-    public PostDTO(Long id, String body, String title, String topic, int level, String mediaUrl, String visibility, String username, String claimerName, LocalDateTime timeCreated, List<ReplyDTO> replies) {
+    public PostDTO(Long id, String body, String title, String topic, int level, String sport, String mediaUrl, String visibility, String username, String claimerName, LocalDateTime timeCreated, List<ReplyDTO> replies) {
         this.id = id;
         this.body = body;
         this.mediaUrl = mediaUrl;
@@ -30,6 +31,7 @@ public class PostDTO {
         this.claimerName = claimerName;
         this.timeCreated = timeCreated;
         this.replies = replies;
+        this.sport = sport;
     }
 
     // Getters and Setters
@@ -120,4 +122,8 @@ public class PostDTO {
     public void setReplies(List<ReplyDTO> replies) {
         this.replies = replies;
     }
+
+    public void setSport(String sport) { this.sport = sport; }
+
+    public String getSport() { return sport; }
 }

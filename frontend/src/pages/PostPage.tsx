@@ -112,6 +112,7 @@ function PostPage() {
             <h1>{post.title}</h1>
             <h2>Level: {post.level}</h2>
             <p>Topic: {post.topic}</p>
+            <p>Sport: {post.sport}</p>
             {/* Display post media if present */}
             {post.mediaUrl && (
                 <div className="post-media">

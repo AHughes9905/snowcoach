@@ -40,6 +40,9 @@ public class Post {
     @Column(nullable = false)
     private int level; // 0-5 where 5 is expert/certification
 
+    @Column(nullable = false)
+    private String sport; //Ski or Snowboard
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime timeCreated;
 
@@ -56,6 +59,7 @@ public class Post {
         this.title = title;
         this.topic = topic;
         this.level = level;
+        this.sport = sport;
         this.mediaUrl = mediaUrl;
         this.visibility = visibility;
         this.user = user;
@@ -154,4 +158,8 @@ public class Post {
         replies.add(reply);
         reply.setPost(this);
     }
+
+    public void setSport(String sport) {this.sport = sport;}
+
+    public String getSport() {return sport;}
 }

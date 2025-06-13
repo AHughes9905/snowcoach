@@ -13,6 +13,7 @@ function PostPreview({ post, buttonLabel, buttonAction }: PostPreviewProps) {
             <h2>{post.title}</h2>
             <p>Level: {post.level}</p>
             <p>Topic: {post.topic}</p>
+            <p>Sport: {post.sport}</p>
             <button onClick={() => buttonAction(post.id)}>{buttonLabel}</button>
         </div>
     );

@@ -27,6 +27,7 @@ public class PostMapper {
         postDTO.setTitle(post.getTitle());
         postDTO.setTopic(post.getTopic());
         postDTO.setLevel(post.getLevel());
+        postDTO.setSport(post.getSport());
 
         if (post.getClaimer() != null) {
             postDTO.setClaimer(post.getClaimer().getUsername());
@@ -52,6 +53,7 @@ public class PostMapper {
         post.setTitle(postDTO.getTitle());
         post.setTopic(postDTO.getTopic());
         post.setLevel(postDTO.getLevel());
+        post.setSport(postDTO.getSport());
         //post.setUser(postDTO.getUser());
         //post.setClaimer(userMapper.toEntity(postDTO.getClaimer()));
         post.setTimeCreated(postDTO.getTimeCreated() != null ? postDTO.getTimeCreated() : LocalDateTime.now()); // Handle default

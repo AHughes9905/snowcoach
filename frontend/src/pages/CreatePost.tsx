@@ -9,6 +9,7 @@ function CreatePost() {
         topic: "",
         body: "",
         username: user?.username || "",
+        sport: "Ski", 
     });
     const [media, setMedia] = useState<File | null>(null);
 
@@ -36,7 +37,7 @@ function CreatePost() {
             if (media) {
                 const data = new FormData();
 
-                // Properly send post JSON with content-type
+                
                 data.append(
                 "post",
                 new Blob(
@@ -46,6 +47,7 @@ function CreatePost() {
                     topic: formData.topic,
                     body: formData.body,
                     username: formData.username,
+                    sport: formData.sport,
                     })],
                     { type: "application/json" }
                 )
@@ -58,7 +60,7 @@ function CreatePost() {
                     body: data,
                 });
             } else {
-                // Use JSON for regular post
+                
                 response = await fetch("/api/posts/create", {
                     method: "POST",
                     credentials: "include",
@@ -80,7 +82,7 @@ function CreatePost() {
             alert("Post created successfully!");
 
             // Reset the form
-            setFormData({ title: "", level: "", topic: "", body: "", username: user?.username || "" });
+            setFormData({ title: "", level: "", topic: "", body: "", username: user?.username || "", sport: "Ski" });
             setMedia(null);
         } catch (error) {
             console.error("Error creating post:", error);
@@ -129,6 +131,31 @@ function CreatePost() {
                         onChange={handleChange}
                         required
                     />
+                </div>
+                <div className="form-group">
+                    <label>Sport:</label>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <label style={{ marginRight: "1em" }}>
+                            <input
+                                type="radio"
+                                name="sport"
+                                value="Ski"
+                                checked={formData.sport === "Ski"}
+                                onChange={handleChange}
+                            />
+                            Ski
+                        </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="sport"
+                                value="Snowboard"
+                                checked={formData.sport === "Snowboard"}
+                                onChange={handleChange}
+                            />
+                            Snowboard
+                        </label>
+                    </div>
                 </div>
                 <div className="form-group">
                     <label htmlFor="body">Body:</label>

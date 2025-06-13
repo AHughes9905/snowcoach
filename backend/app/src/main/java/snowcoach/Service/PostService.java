@@ -43,6 +43,7 @@ public class PostService {
         post.setClaimer(null);
         post.setTitle(dto.getTitle());
         post.setLevel(dto.getLevel());
+        post.setSport(dto.getSport());
         post.setTopic(dto.getTopic());
         postRepository.save(post);
         return postMapper.toDTO(post); 

@@ -4,6 +4,7 @@ export interface Post {
     id: number;
     title: string;
     level: number;
+    sport: string;
     topic: string;
     body?: string;
     mediaUrl?: string;

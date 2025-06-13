@@ -9,6 +9,7 @@ function PreviewPage() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedLevels, setSelectedLevels] = useState<number[]>([]);
+    const [selectedSport, setSelectedSport] = useState<string>("Any"); // <-- Add state for sport filter
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -63,11 +64,15 @@ function PreviewPage() {
         );
     };
 
-    // Filter posts by selected levels (if any selected)
+    // Filter posts by selected levels (if any selected) and sport
     const filteredPosts =
-        selectedLevels.length === 0
-            ? posts
-            : posts.filter((post) => selectedLevels.includes(post.level));
+        posts.filter((post) => {
+            const levelMatch =
+                selectedLevels.length === 0 || selectedLevels.includes(post.level);
+            const sportMatch =
+                selectedSport === "Any" || post.sport === selectedSport;
+            return levelMatch && sportMatch;
+        });
 
     return (
         <div className="preview-page">
@@ -84,6 +89,16 @@ function PreviewPage() {
                         Level {level}
                     </label>
                 ))}
+                <span style={{ marginLeft: "2em" }}>Sport: </span>
+                <select
+                    value={selectedSport}
+                    onChange={(e) => setSelectedSport(e.target.value)}
+                    style={{ marginLeft: "0.5em" }}
+                >
+                    <option value="Any">Any</option>
+                    <option value="Ski">Ski</option>
+                    <option value="Snowboard">Snowboard</option>
+                </select>
             </div>
             <div className="preview-list">
                 {filteredPosts.length > 0 ? (
