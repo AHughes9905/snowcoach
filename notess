@@ -1,6 +1,0 @@
-use command to make db and associated credentials in resources application.properties
-docker run --name postgre-db -e POSTGRES_USER=username -e POSTGRES_PASSWORD=password -e POSTGRES_DB=snowcoachdb -p 5432:5432 -d postgres
-
-need to make auth response reply with following headers : Set-Cookie: jwt=your-jwt-token; HttpOnly; Secure; SameSite=Strict
-
-add new roles that and restrict access points accordingly

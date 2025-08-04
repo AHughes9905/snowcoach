@@ -1,17 +1,11 @@
-# snowcoach
-Webservice coaching app
+# SnowCoach
 
+Snowcoach is a remote ski and snowboard coaching app. It allows athletes to submit posts which can include media. These posts can be claimed by coaches which they can respond to and attach media of their own if they wish. Posts can be marked as complete where they will still be visible to athletes in case they wish to review past conversations/lessons. When posts are created they are marked with an ability level and designated sport where coaches are only allowed to claim posts that they are qualified for.
 
-## DB Setup
-First run docker run --name my-postgres -e POSTGRES_USER=aaron -e POSTGRES_PASSWORD=pass -p 5432:5432 -d postgres
+## Stack
+The frontend is React with Typescript, the backend is Java SpringBoot with a PostgreSQL database which can be launched via Dockercompose. Follows RESTful design with using HTTP only cookies with JWTs to authorize and authenticate users.
 
-Then run docker exec -it my-postgres psql -U aaron  inorder to get inside of postgres
-
-Then inside postgres rnun CREATE DATABASE snowcoachdb; to create db
-
-\q to quit psql container
-
-When running progam for first time on db uncomment everything in InitDbService
-
-## Run react dev server
-go into frontend directory then run npm run dev
+## Future Ideas/Goals
+* Possibly allow coaches to create profiles visible to athletes to allow athletes to find coaches they wish to work with or work with the same coach consitently.
+* Implement payment processing system.
+* Update UI
