@@ -14,6 +14,7 @@ import ListUsersPage from "./pages/ListUsersPage";
 import AdminPage from "./pages/AdminPage";
 import EditUserPage from "./pages/EditUserPage";
 import LandingPage from "./pages/LandingPage";
+import DemoLoginPage from "./pages/DemoLoginPage";
 
 import './App.css';
 import React from "react";
@@ -44,6 +45,7 @@ function App() {
                     <Route path="/edit-user/:id" element={<EditUserPage />} />
                     <Route path="/user/:id" element={<div>User Details Place Holder</div>} />
                     <Route path="/landing" element={<LandingPage />} />
+                    <Route path="/demo-login" element={<DemoLoginPage />} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
