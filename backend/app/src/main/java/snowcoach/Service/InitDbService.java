@@ -94,6 +94,11 @@ public class InitDbService {
             athlete.setRoles(Arrays.asList(userRole));
             userRepository.save(athlete);
 
+            User demoUser = new User();
+            demoUser.setUsername("demoUser");
+            demoUser.setPassword(encoder.encode("demoPassword"));
+            demoUser.setRoles(Arrays.asList(coach2Role));
+            userRepository.save(demoUser);
 
             User admin = new User();
             admin.setUsername("admin");
