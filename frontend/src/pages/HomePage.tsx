@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "./HomePage.css";
 
 function HomePage() {
     const { user } = useAuth();
@@ -20,13 +21,25 @@ function HomePage() {
     return (
         <div className="home-page">
             <h1>Welcome, {user.username}!</h1>
-            <ul>
-                <li><Link to="/claimed-posts">My Claimed Posts</Link></li>
-                <li><Link to="/my-posts">My Posts</Link></li>
-                <li><Link to="/preview">Preview Page</Link></li>
-                <li><Link to="/create">Create Post</Link></li>
-                {hasRole("ROLE_ADMIN") && <Link to="/admin">Admin Page</Link>}
-            </ul>
+            <div className="home-options">
+                <div className="home-option-card">
+                    <Link to="/claimed-posts">My Claimed Posts</Link>
+                </div>
+                <div className="home-option-card">
+                    <Link to="/my-posts">My Posts</Link>
+                </div>
+                <div className="home-option-card">
+                    <Link to="/preview">Preview Page</Link>
+                </div>
+                <div className="home-option-card">
+                    <Link to="/create">Create Post</Link>
+                </div>
+                {hasRole("ROLE_ADMIN") && (
+                    <div className="home-option-card">
+                        <Link to="/admin">Admin Page</Link>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

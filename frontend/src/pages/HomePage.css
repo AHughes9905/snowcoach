@@ -1,0 +1,28 @@
+.home-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5em;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+.home-option-card {
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 1.5em 2em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    text-align: center;
+    transition: box-shadow 0.2s;
+}
+
+.home-option-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    background: #eaf6ff;
+}
+
+.home-option-card a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+    font-size: 1.1em;
+}
