@@ -1,15 +1,22 @@
+networks:
+  default:
+    name: portfolio_net
+    external: true
+
 services:
   frontend:
+    container_name: snowcoach-frontend
     build: ./frontend
-    ports:
-      - "80:80"   # Local:Container
+    expose:
+      - "80"   # Local:Container
     depends_on:
       - backend
 
   backend:
+    container_name: snowcoach-backend
     build: ./backend
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     #Currently unneeded environment variables which are currently handled in Spring Boot
     # environment:
     #   SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/snowcoachdb
@@ -20,14 +27,15 @@ services:
         condition: service_healthy
 
   db:
+    container_name: snowcoach-db
     image: postgres:17
     restart: always
     environment:
       POSTGRES_DB: snowcoachdb
       POSTGRES_USER: aaron
       POSTGRES_PASSWORD: pass
-    ports:
-      - "5432:5432"
+    expose:
+      - "5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
